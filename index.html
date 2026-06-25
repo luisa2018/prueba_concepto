@@ -7,94 +7,96 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;min-height:100vh}
-  :root{--azul:#003087;--azul-m:#185FA5;--azul-c:#E8F0FB;--azul-b:#B3C6E0;--verde:#1D6A35;--verde-c:#EAF4EE;--gris:#F7F8FA;--gris-b:#E2E8F0;--gris-t:#64748B;--negro:#1E293B}
-
+  :root{--azul:#003087;--azul-m:#185FA5;--azul-c:#E8F0FB;--azul-b:#B3C6E0;--verde:#1D6A35;--verde-c:#EAF4EE;--naranja:#C55A11;--naranja-c:#FFF8E1;--gris:#F7F8FA;--gris-b:#E2E8F0;--gris-t:#64748B;--negro:#1E293B;--code:#1E1E2E}
   .shell{max-width:900px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.08)}
   .topbar{background:var(--azul);padding:14px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
   .logo{width:34px;height:34px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--azul);font-size:14px;flex-shrink:0}
-  .topbar h1{color:#fff;font-size:15px;font-weight:600}
-  .topbar p{color:#9DC3E6;font-size:12px}
-
-  .stepper{background:#fff;border-bottom:1px solid var(--gris-b);display:flex}
-  .step{padding:12px 18px;font-size:12px;color:var(--gris-t);border-bottom:2px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0}
+  .topbar-info h1{color:#fff;font-size:15px;font-weight:600}
+  .topbar-info p{color:#9DC3E6;font-size:12px}
+  .stepper{background:#fff;border-bottom:1px solid var(--gris-b);display:flex;overflow-x:auto}
+  .step{padding:12px 18px;font-size:12px;color:var(--gris-t);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all .2s;flex-shrink:0}
+  .step:hover{color:var(--azul-m);background:var(--gris)}
   .step.active{color:var(--azul);border-bottom-color:var(--azul);font-weight:600}
   .step.done{color:var(--verde)}
-  .step-num{width:20px;height:20px;border-radius:50%;background:var(--gris-b);color:var(--gris-t);font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+  .step-num{width:20px;height:20px;border-radius:50%;background:var(--gris-b);color:var(--gris-t);font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0;transition:all .2s}
   .step.active .step-num{background:var(--azul);color:#fff}
   .step.done .step-num{background:var(--verde);color:#fff}
   .progress{height:3px;background:var(--gris-b)}
-  .progress-fill{height:3px;background:var(--azul);transition:width .4s}
-
+  .progress-fill{height:3px;background:var(--azul);transition:width .4s ease}
   .content{padding:28px 32px;max-width:780px;margin:0 auto}
   .screen{display:none}
   .screen.active{display:block}
-
+  .sec-label{font-size:11px;font-weight:600;color:var(--gris-t);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;margin-top:20px}
   .page-title{font-size:18px;font-weight:600;color:var(--azul);margin-bottom:4px;margin-top:4px}
   .page-sub{font-size:13px;color:var(--gris-t);margin-bottom:20px;line-height:1.5}
-  .sec-label{font-size:11px;font-weight:600;color:var(--gris-t);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;margin-top:20px}
-
   .form-row{margin-bottom:14px}
   .form-row label{display:block;font-size:12px;font-weight:600;color:var(--gris-t);margin-bottom:5px}
-  .form-row input[type=text],.form-row select,.form-row textarea{width:100%;padding:9px 12px;border:1px solid var(--gris-b);border-radius:8px;font-size:13px;color:var(--negro);outline:none;background:#fff;font-family:inherit}
+  .form-row input[type=text],.form-row select,.form-row textarea{width:100%;padding:9px 12px;border:1px solid var(--gris-b);border-radius:8px;font-size:13px;color:var(--negro);outline:none;transition:border .2s;background:#fff;font-family:inherit}
   .form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--azul-m);box-shadow:0 0 0 3px rgba(24,95,165,.1)}
   .form-row textarea{resize:vertical;min-height:72px;line-height:1.5}
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
   .hidden-row{display:none;margin-top:10px}
   .hidden-row.visible{display:block}
-
   .radio-group{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-  .radio-btn{padding:7px 16px;border:1px solid var(--gris-b);border-radius:8px;font-size:13px;cursor:pointer;color:var(--gris-t);background:var(--gris);user-select:none}
+  .radio-btn{padding:7px 16px;border:1px solid var(--gris-b);border-radius:8px;font-size:13px;cursor:pointer;color:var(--gris-t);background:var(--gris);transition:all .15s;user-select:none}
+  .radio-btn:hover{border-color:var(--azul-b);color:var(--azul-m)}
   .radio-btn.sel{border-color:var(--azul);background:var(--azul-c);color:var(--azul);font-weight:600}
 
-  .loading-card{background:var(--azul-c);border:1px solid var(--azul-b);border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:20px}
-  .spinner{width:20px;height:20px;border:2px solid var(--azul-b);border-top-color:var(--azul);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .loading-text{font-size:13px;color:var(--azul-m)}
+  /* PANTALLA 2 */
+  .ctx-toolbar{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+  .btn-confluence{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid #86EFAC;border-radius:8px;background:var(--verde-c);color:var(--verde);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+  .btn-confluence:hover{background:#c6f0d8}
+  .btn-pdf-upload{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--azul-b);border-radius:8px;background:var(--azul-c);color:var(--azul-m);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+  .btn-pdf-upload:hover{background:#cde0f8}
+  .ctx-hint{font-size:11px;color:var(--gris-t);margin-bottom:6px}
 
-  .conf-card{background:var(--verde-c);border:1px solid #86EFAC;border-radius:10px;padding:16px;margin-bottom:20px}
-  .conf-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-  .conf-badge{font-size:11px;background:var(--verde);color:#fff;border-radius:4px;padding:2px 8px;font-weight:500}
-  .conf-title{font-size:13px;font-weight:600;color:var(--verde);flex:1}
-  .conf-footer{font-size:11px;color:var(--verde);margin-top:8px}
-  .conf-link{color:var(--azul-m);text-decoration:underline;cursor:pointer;background:none;border:none;font-size:11px;font-family:inherit;padding:0}
-  .edit-label{display:block;font-size:11px;font-weight:600;color:#1D6A35;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;margin-top:10px}
+  /* PANTALLA 3 — FEATURE TREE */
+  .feature-block{border:1px solid var(--azul-b);border-radius:10px;overflow:hidden;margin-bottom:20px}
+  .feature-header{background:var(--azul);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:8px}
+  .feature-badge{font-size:10px;font-weight:700;background:rgba(255,255,255,.2);border-radius:4px;padding:2px 8px;flex-shrink:0}
+  .feature-title{font-size:13px;font-weight:600;flex:1}
+  .tarea-block{border-bottom:1px solid var(--gris-b)}
+  .tarea-block:last-child{border-bottom:none}
+  .tarea-header{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#f0f5ff;border-bottom:1px solid var(--gris-b)}
+  .tarea-badge{font-size:10px;font-weight:700;background:var(--azul-c);color:var(--azul);border-radius:4px;padding:2px 8px;flex-shrink:0}
+  .tarea-title{font-size:13px;font-weight:600;color:var(--azul);flex:1}
+  .tarea-del{background:none;border:none;color:var(--gris-t);cursor:pointer;font-size:13px;opacity:.6;padding:2px 6px;border-radius:4px}
+  .tarea-del:hover{opacity:1;color:#ef4444;background:#fee2e2}
+  .casos-list{padding:0}
+  .caso-block{border-bottom:1px solid var(--gris-b);padding:10px 16px 10px 48px;background:#fafbff}
+  .caso-block:last-child{border-bottom:none}
+  .caso-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .caso-badge{font-size:10px;font-weight:700;background:var(--verde-c);color:var(--verde);border-radius:4px;padding:2px 8px;flex-shrink:0}
+  .caso-title{font-size:12px;font-weight:600;color:var(--negro);flex:1}
+  .caso-del{background:none;border:none;color:var(--gris-t);cursor:pointer;font-size:12px;opacity:.6;padding:2px 6px;border-radius:4px}
+  .caso-del:hover{opacity:1;color:#ef4444;background:#fee2e2}
+  .caso-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+  .tag{background:var(--gris);color:var(--gris-t);border:1px solid var(--gris-b);border-radius:4px;padding:1px 7px;font-size:10px;font-weight:600}
+  .gherkin-edit{width:100%;font-size:12px;font-family:'Courier New',monospace;padding:8px 10px;border:1px solid var(--gris-b);border-radius:6px;background:#f8fafc;color:var(--negro);resize:vertical;min-height:80px;outline:none;line-height:1.7}
+  .gherkin-edit:focus{border-color:var(--azul-m);background:#fff}
+  .add-caso-btn{margin:8px 16px 10px 48px;display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--verde);background:var(--verde-c);border:1px solid #86EFAC;border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit}
 
-  .upload-zone{border:1px dashed var(--gris-b);border-radius:8px;padding:16px;text-align:center;color:var(--gris-t);font-size:12px;cursor:pointer;background:var(--gris)}
-  .upload-zone:hover{border-color:var(--azul-m);background:var(--azul-c)}
-  .upload-link{color:var(--azul-m);text-decoration:underline}
-
-  .flujo-wrap{margin-bottom:10px}
-  .flujo-header{background:var(--azul);color:#fff;padding:11px 16px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:space-between}
-  .flujo-title{font-size:13px;font-weight:600}
-  .flujo-del{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer}
-  .subflujos{border:1px solid var(--azul-b);border-top:none;border-radius:0 0 8px 8px}
-  .sub-row{display:flex;align-items:center;padding:8px 16px;border-bottom:1px solid var(--gris-b);font-size:12px;color:#475569;gap:8px}
-  .sub-row:last-child{border-bottom:none}
-  .sub-del{margin-left:auto;background:none;border:none;color:var(--gris-t);cursor:pointer;font-size:12px;opacity:.6}
-  .sub-del:hover{opacity:1;color:#ef4444}
-  .add-row{display:flex;gap:8px;margin-top:8px}
-  .add-row input{flex:1;padding:8px 12px;border:1px solid var(--gris-b);border-radius:8px;font-size:12px;outline:none;font-family:inherit}
-  .add-row input:focus{border-color:var(--azul-m)}
-  .add-btn{padding:8px 14px;background:var(--azul);color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
-  .add-sub-btn{padding:5px 10px;background:var(--azul-c);color:var(--azul);border:1px solid var(--azul-b);border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit}
-  .tree-empty{border:2px dashed var(--gris-b);border-radius:10px;padding:40px;text-align:center;color:var(--gris-t);font-size:13px;margin-bottom:16px}
+  /* FLUJO TREE (para agregar tareas) */
+  .add-tarea-row{display:flex;gap:8px;margin:10px 16px}
+  .add-tarea-row input{flex:1;padding:7px 10px;border:1px solid var(--gris-b);border-radius:7px;font-size:12px;outline:none;font-family:inherit}
+  .add-tarea-row input:focus{border-color:var(--azul-m)}
+  .add-tarea-btn{padding:7px 12px;background:var(--azul);color:#fff;border:none;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
 
   .divider{border:none;border-top:1px solid var(--gris-b);margin:20px 0}
   .actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
-  .btn{padding:10px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:none;display:flex;align-items:center;gap:6px;font-family:inherit}
-  .btn:hover{opacity:.88}
+  .btn{padding:10px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;display:flex;align-items:center;gap:6px;font-family:inherit}
+  .btn:hover{opacity:.88;transform:translateY(-1px)}
+  .btn:active{transform:translateY(0)}
   .btn-primary{background:var(--azul);color:#fff}
-  .btn-secondary{background:var(--gris);color:var(--gris-t);border:1px solid var(--gris-b)}
+  .btn-success{background:var(--verde);color:#fff}
   .btn-outline{background:#fff;color:#475569;border:1px solid var(--gris-b)}
+  .btn-outline:hover{border-color:var(--azul-b);background:var(--azul-c);color:var(--azul)}
+  .btn-secondary{background:var(--gris);color:var(--gris-t);border:1px solid var(--gris-b)}
   .btn-azure{background:#0078d4;color:#fff}
-
-  .toast{position:fixed;bottom:24px;right:24px;background:#1E293B;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;display:none;z-index:999}
-
-  @media(max-width:600px){
-    .content{padding:16px}
-    .form-grid{grid-template-columns:1fr}
-    .actions{flex-direction:column}
-  }
+  .publish-note{font-size:11px;color:var(--gris-t);margin-top:10px;line-height:1.5}
+  .toast{position:fixed;bottom:24px;right:24px;background:#1E293B;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;display:none;z-index:999;animation:slideup .3s ease}
+  @keyframes slideup{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+  @media(max-width:600px){.content{padding:16px}.form-grid{grid-template-columns:1fr}.actions{flex-direction:column}.btn{justify-content:center}}
 </style>
 </head>
 <body>
@@ -102,22 +104,22 @@
 
   <div class="topbar">
     <div class="logo">S</div>
-    <div>
+    <div class="topbar-info">
       <h1>Agente de flujos críticos</h1>
       <p>Sura Colombia — Calidad y Automatización</p>
     </div>
   </div>
 
-  <div class="stepper">
-    <div class="step active" id="tab1"><span class="step-num" id="sn1">1</span> Información básica</div>
-    <div class="step" id="tab2"><span class="step-num" id="sn2">2</span> Contexto</div>
-    <div class="step" id="tab3"><span class="step-num" id="sn3">3</span> Flujos críticos</div>
+  <div class="stepper" id="stepper">
+    <div class="step active" id="tab1" onclick="goTo(1)"><span class="step-num" id="sn1">1</span> Información básica</div>
+    <div class="step" id="tab2" onclick="goTo(2)"><span class="step-num" id="sn2">2</span> Contexto</div>
+    <div class="step" id="tab3" onclick="goTo(3)"><span class="step-num" id="sn3">3</span> Flujos críticos</div>
   </div>
   <div class="progress"><div class="progress-fill" id="progress" style="width:33%"></div></div>
 
   <div class="content">
 
-    <!-- PANTALLA 1 -->
+    <!-- ══ PANTALLA 1 — INFORMACIÓN BÁSICA ══ -->
     <div class="screen active" id="s1">
       <p class="page-title">Información básica</p>
       <p class="page-sub">Ingresa la información base de tu aplicación. El agente la usará durante toda la sesión.</p>
@@ -126,11 +128,11 @@
       <div class="form-grid">
         <div class="form-row" style="margin-bottom:0">
           <label>Nombre de la aplicación *</label>
-          <input type="text" id="app-nombre" placeholder="Ej: Portal de expedición de pólizas"/>
+          <input type="text" id="app-nombre" placeholder="Ej: Portal de expedición de pólizas" oninput="validarP1()"/>
         </div>
         <div class="form-row" style="margin-bottom:0">
           <label>ID APM *</label>
-          <input type="text" id="app-apm" placeholder="Ej: APM-4821"/>
+          <input type="text" id="app-apm" placeholder="Ej: APM-4821" oninput="validarP1()"/>
         </div>
       </div>
 
@@ -148,7 +150,7 @@
       <p class="sec-label">Descripción y propósito</p>
       <div class="form-row">
         <label>¿Qué hace esta aplicación? *</label>
-        <textarea id="app-desc" placeholder="Describe brevemente el propósito de la aplicación..."></textarea>
+        <textarea id="app-desc" placeholder="Describe brevemente el propósito de la aplicación..." oninput="validarP1()"></textarea>
       </div>
 
       <p class="sec-label">Rol e integraciones</p>
@@ -173,96 +175,51 @@
         </div>
       </div>
 
+      <div class="actions">
+        <button class="btn btn-primary" id="btn-p1" onclick="goTo(2)" disabled>Continuar →</button>
+      </div>
+    </div>
+
+    <!-- ══ PANTALLA 2 — CONTEXTO ══ -->
+    <div class="screen" id="s2">
+      <p class="page-title">Contexto de la aplicación</p>
+      <p class="page-sub">Escribe o complementa el contexto de la aplicación. El agente lo usará para identificar los flujos críticos.</p>
+
       <div class="form-row">
-        <label>¿Existen flujos ya documentados para esta aplicación?</label>
-        <div class="radio-group">
-          <div class="radio-btn" id="doc-si" onclick="toggleR('doc','si')">Sí</div>
-          <div class="radio-btn sel" id="doc-no" onclick="toggleR('doc','no')">No</div>
+        <label>Contexto de la aplicación</label>
+        <p class="ctx-hint">Puedes escribir directamente, traer el resumen de Confluence o subir un PDF. Todo se consolida en este campo.</p>
+        <div class="ctx-toolbar">
+          <button class="btn-confluence" onclick="traerConfluence()">📄 Traer resumen de Confluence</button>
+          <button class="btn-pdf-upload" onclick="showToast('Carga de PDF disponible en la versión real')">☁ Subir PDF con contexto</button>
         </div>
+        <textarea id="ctx-final" placeholder="Describe el contexto de la aplicación: propósito, usuarios, integraciones, procesos clave, reglas de negocio relevantes…" style="min-height:160px"></textarea>
       </div>
 
       <div class="actions">
-        <button class="btn btn-primary" onclick="irAContexto()">Consultar en Confluence →</button>
+        <button class="btn btn-secondary" onclick="goTo(1)">← Atrás</button>
+        <button class="btn btn-primary" onclick="goTo(3)">Crear flujos críticos →</button>
       </div>
     </div>
 
-    <!-- PANTALLA 2 -->
-    <div class="screen" id="s2">
-      <p class="page-title">Contexto de la aplicación</p>
-      <p class="page-sub">El agente consultó Confluence y generó un resumen del contexto. Revísalo y completa la información que haga falta.</p>
-
-      <div id="p2-spinner" class="loading-card">
-        <div class="spinner"></div>
-        <span class="loading-text">Buscando documentación en Confluence…</span>
-      </div>
-
-      <div id="p2-content" style="display:none">
-        <div class="conf-card">
-          <div class="conf-header">
-            <span style="font-size:16px">📄</span>
-            <span class="conf-title">Resumen encontrado en Confluence</span>
-            <span class="conf-badge" id="conf-badge">App</span>
-          </div>
-          <span class="edit-label">Editar resumen</span>
-          <textarea id="conf-resumen" style="width:100%;font-size:13px;color:#1E293B;line-height:1.6;border:1px solid #86EFAC;border-radius:8px;padding:10px 12px;background:#fff;resize:vertical;min-height:96px;font-family:inherit;outline:none">Portal web que permite a afiliados consultar su estado de cuenta, solicitar certificados y gestionar beneficios. Integra con el core de pólizas vía API REST y tiene picos de uso a fin de mes por procesos de facturación masiva. Mantenido por el equipo de Canales Digitales.</textarea>
-          <div class="conf-footer">
-            🕐 Documentación actualizada hace 14 días &nbsp;·&nbsp;
-            <button class="conf-link">Ver página original en Confluence →</button>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <label>¿Por qué es crítico este flujo?</label>
-          <textarea placeholder="Describe por qué este flujo impacta el negocio o la experiencia del usuario…"></textarea>
-        </div>
-
-        <div class="form-row">
-          <label>Reglas de negocio relevantes <span style="font-weight:400;color:#94a3b8">(opcional)</span></label>
-          <textarea placeholder="Ej: no se permiten solicitudes fuera del horario bancario…" style="min-height:56px"></textarea>
-        </div>
-
-        <div class="form-row">
-          <label>Información adicional <span style="font-weight:400;color:#94a3b8">(opcional)</span></label>
-          <div class="upload-zone" onclick="showToast('📎 Selección de archivo disponible en la versión real')">
-            <div style="font-size:22px;margin-bottom:4px">☁</div>
-            Sube un PDF con más contexto si lo tienes
-            <div style="margin-top:4px"><span class="upload-link">Seleccionar archivo</span></div>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="btn btn-secondary" onclick="goTo(1)">← Atrás</button>
-          <button class="btn btn-primary" onclick="irAFlujos()">Crear flujos críticos →</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PANTALLA 3 -->
+    <!-- ══ PANTALLA 3 — FLUJOS CRÍTICOS ══ -->
     <div class="screen" id="s3">
       <p class="page-title">Flujos críticos</p>
-      <p class="page-sub">El agente identificó los flujos críticos de la aplicación. Puedes editar, eliminar o agregar flujos y subflujos.</p>
+      <p class="page-sub">El agente generó los flujos críticos con sus casos de prueba según el lineamiento. Revisa, edita o agrega antes de publicar.</p>
 
-      <div id="p3-spinner" class="loading-card">
-        <div class="spinner"></div>
-        <span class="loading-text">El agente está identificando los flujos críticos…</span>
+      <div id="feature-tree"></div>
+
+      <div class="add-tarea-row">
+        <input type="text" id="nueva-tarea" placeholder="Agregar nueva tarea (flujo crítico)…" onkeydown="if(event.key==='Enter') agregarTarea()"/>
+        <button class="add-tarea-btn" onclick="agregarTarea()">+ Agregar tarea</button>
       </div>
 
-      <div id="p3-content" style="display:none">
-        <div id="flujo-tree"></div>
+      <hr class="divider"/>
+      <p class="publish-note">Al publicar, el agente creará en Azure DevOps el Feature, las Tareas y los Casos de prueba en Gherkin con la taxonomía del lineamiento institucional, todos en estado <strong>New</strong>.</p>
 
-        <div class="add-row">
-          <input type="text" id="nuevo-flujo" placeholder="Nombre del nuevo flujo principal…" onkeydown="if(event.key==='Enter') agregarFlujo()"/>
-          <button class="add-btn" onclick="agregarFlujo()">+ Agregar flujo</button>
-        </div>
-
-        <hr class="divider"/>
-
-        <div class="actions">
-          <button class="btn btn-secondary" onclick="goTo(2)">← Atrás</button>
-          <button class="btn btn-primary" onclick="showToast('📄 Generando PDF con los flujos documentados...')">⬇ Descargar PDF</button>
-          <button class="btn btn-azure" onclick="showToast('☁ Publicando en Azure DevOps: Feature + Tareas creadas.')">☁ Publicar en Azure DevOps</button>
-          <button class="btn btn-outline" onclick="reiniciar()">+ Nuevo levantamiento</button>
-        </div>
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="goTo(2)">← Atrás</button>
+        <button class="btn btn-primary" onclick="showToast('📄 Generando PDF con flujos y casos de prueba...')">⬇ Descargar PDF</button>
+        <button class="btn btn-azure" onclick="showToast('☁ Publicando en Azure DevOps: Feature + Tareas + Casos de prueba creados en estado New.')">☁ Publicar en Azure DevOps</button>
       </div>
     </div>
 
@@ -272,130 +229,170 @@
 <div class="toast" id="toast"></div>
 
 <script>
-var state = { flujos: [], nextId: 4 };
+const state = { flujos: [], flujoIdx: 0 };
 
 function goTo(n) {
-  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
-  document.getElementById('s'+n).classList.add('active');
-  for (var i = 1; i <= 3; i++) {
-    var tab = document.getElementById('tab'+i);
-    var sn  = document.getElementById('sn'+i);
-    tab.classList.remove('active','done');
-    if (i === n)    { tab.classList.add('active'); sn.textContent = i; }
-    else if (i < n) { tab.classList.add('done');   sn.innerHTML = '✓'; }
-    else            { sn.textContent = i; }
-  }
-  document.getElementById('progress').style.width = (n===1?'33':n===2?'66':'100')+'%';
-  window.scrollTo(0,0);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s' + n).classList.add('active');
+  document.querySelectorAll('.step').forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    const sn = document.getElementById('sn' + (i + 1));
+    if (i + 1 === n) { s.classList.add('active'); sn.textContent = i + 1; }
+    else if (i + 1 < n) { s.classList.add('done'); sn.innerHTML = '✓'; }
+    else { sn.textContent = i + 1; }
+  });
+  const pct = n === 1 ? 33 : n === 2 ? 66 : 100;
+  document.getElementById('progress').style.width = pct + '%';
+  if (n === 3) cargarFlujos();
+  window.scrollTo(0, 0);
 }
 
 function toggleR(grupo, val) {
-  ['si','no'].forEach(function(v){
-    var el = document.getElementById(grupo+'-'+v);
-    if (el) el.classList.toggle('sel', v===val);
+  ['si','no'].forEach(v => {
+    const el = document.getElementById(grupo + '-' + v);
+    if (el) el.classList.toggle('sel', v === val);
   });
-  if (grupo==='ps'){ var r=document.getElementById('prod-row'); if(r) r.classList.toggle('visible',val==='si'); }
-  if (grupo==='int'){ var r=document.getElementById('int-row'); if(r) r.classList.toggle('visible',val==='si'); }
+  if (grupo === 'ps') document.getElementById('prod-row').classList.toggle('visible', val === 'si');
+  if (grupo === 'int') document.getElementById('int-row').classList.toggle('visible', val === 'si');
 }
 
-function irAContexto() {
-  var appNombre = document.getElementById('app-nombre').value.trim() || 'App';
-  document.getElementById('conf-badge').textContent = appNombre;
-  document.getElementById('p2-spinner').style.display = 'flex';
-  document.getElementById('p2-content').style.display = 'none';
-  goTo(2);
-  setTimeout(function(){
-    document.getElementById('p2-spinner').style.display = 'none';
-    document.getElementById('p2-content').style.display = 'block';
-  }, 1800);
+function validarP1() {
+  const n = document.getElementById('app-nombre').value.trim();
+  const a = document.getElementById('app-apm').value.trim();
+  const d = document.getElementById('app-desc').value.trim();
+  document.getElementById('btn-p1').disabled = !(n && a && d);
 }
 
-function irAFlujos() {
-  document.getElementById('p3-spinner').style.display = 'flex';
-  document.getElementById('p3-content').style.display = 'none';
-  goTo(3);
+function traerConfluence() {
+  const ctx = document.getElementById('ctx-final');
+  const resumen = 'Portal web que permite a afiliados consultar su estado de cuenta, solicitar certificados y gestionar beneficios. Integra con el core de pólizas vía API REST y tiene picos de uso a fin de mes por procesos de facturación masiva. Mantenido por el equipo de Canales Digitales.';
+  ctx.value = ctx.value.trim() ? ctx.value.trim() + '\n\n' + resumen : resumen;
+  ctx.focus();
+  showToast('✓ Resumen de Confluence agregado al contexto');
+}
+
+function cargarFlujos() {
+  if (state.flujos.length > 0) { renderFeatureTree(); return; }
+  const appNombre = document.getElementById('app-nombre').value.trim() || 'Aplicación';
+  const appApm = document.getElementById('app-apm').value.trim().replace(/-/g,'') || 'APM';
+  state.featureTitle = appApm + ' FC ' + appNombre;
   state.flujos = [
-    {id:1, nombre:'Consulta de estado de cuenta', subflujos:['Autenticación del afiliado','Consulta de saldo y movimientos','Descarga de estado de cuenta en PDF']},
-    {id:2, nombre:'Solicitud de certificados',    subflujos:['Selección del tipo de certificado','Validación de vigencia de póliza','Generación y envío al correo registrado']},
-    {id:3, nombre:'Gestión de beneficios',        subflujos:['Consulta de beneficios activos','Activación o desactivación de beneficio']}
+    { id:1, titulo:'FC Consulta de estado de cuenta', casos:[
+      { id:11, titulo:'Consulta exitosa', tags:['@Frontend','@API','@BaseDatos'], gherkin:'Scenario: Consulta exitosa\n  Given el afiliado está autenticado en el portal\n  When consulta su estado de cuenta\n  Then el sistema muestra el saldo y movimientos actualizados\n  And el afiliado puede descargar el estado en PDF' },
+      { id:12, titulo:'Sesión expirada', tags:['@Frontend','@API'], gherkin:'Scenario: Consulta con sesión expirada\n  Given el afiliado tiene una sesión expirada\n  When intenta consultar su estado de cuenta\n  Then el sistema redirige al login\n  And muestra el mensaje "Su sesión ha expirado"' },
+      { id:13, titulo:'Error de servicio', tags:['@API','@BaseDatos'], gherkin:'Scenario: Error en el servicio de consulta\n  Given el afiliado está autenticado\n  When el servicio de consulta no está disponible\n  Then el sistema muestra un mensaje de error amigable\n  And registra el fallo en los logs del sistema' }
+    ]},
+    { id:2, titulo:'FC Solicitud de certificados', casos:[
+      { id:21, titulo:'Solicitud exitosa', tags:['@Frontend','@API','@IntegracionExterna'], gherkin:'Scenario: Solicitud exitosa\n  Given el afiliado tiene una póliza vigente\n  When solicita un certificado de seguro\n  Then el sistema genera el certificado\n  And lo envía al correo registrado del afiliado' },
+      { id:22, titulo:'Póliza no vigente', tags:['@Frontend','@API'], gherkin:'Scenario: Solicitud con póliza no vigente\n  Given el afiliado tiene una póliza vencida\n  When intenta solicitar un certificado\n  Then el sistema muestra el mensaje "No tiene pólizas vigentes para generar certificado"' },
+      { id:23, titulo:'Error de envío', tags:['@API','@IntegracionExterna'], gherkin:'Scenario: Fallo en el envío del certificado\n  Given el afiliado solicitó el certificado exitosamente\n  When el servicio de correo no está disponible\n  Then el sistema notifica que el envío falló\n  And ofrece la opción de descarga directa' }
+    ]},
+    { id:3, titulo:'FC Gestión de beneficios', casos:[
+      { id:31, titulo:'Activación exitosa', tags:['@Frontend','@API','@BaseDatos'], gherkin:'Scenario: Activación de beneficio exitosa\n  Given el afiliado tiene beneficios disponibles para activar\n  When activa un beneficio desde el portal\n  Then el sistema registra la activación\n  And muestra confirmación al afiliado' },
+      { id:32, titulo:'Beneficio ya activo', tags:['@Frontend','@API'], gherkin:'Scenario: Intento de activar un beneficio ya activo\n  Given el afiliado tiene un beneficio ya activado\n  When intenta activarlo nuevamente\n  Then el sistema muestra el mensaje "Este beneficio ya está activo"' },
+      { id:33, titulo:'Error en activación', tags:['@API','@BaseDatos'], gherkin:'Scenario: Error al activar beneficio\n  Given el afiliado intenta activar un beneficio\n  When el servicio de beneficios no responde\n  Then el sistema muestra un mensaje de error\n  And sugiere intentarlo más tarde' }
+    ]}
   ];
-  setTimeout(function(){
-    document.getElementById('p3-spinner').style.display = 'none';
-    document.getElementById('p3-content').style.display = 'block';
-    renderTree();
-  }, 2200);
+  renderFeatureTree();
 }
 
-function renderTree() {
-  var tree = document.getElementById('flujo-tree');
-  tree.innerHTML = '';
-  if (state.flujos.length === 0) {
-    tree.innerHTML = '<div class="tree-empty"><div style="font-size:32px;margin-bottom:8px">🌳</div><strong>No hay flujos</strong><p style="margin-top:6px;font-size:12px">Agrega el primer flujo usando el campo de abajo.</p></div>';
-    return;
-  }
-  state.flujos.forEach(function(f, fi) {
-    var subsHtml = f.subflujos.map(function(s, si){
-      return '<div class="sub-row"><span style="color:var(--gris-t)">↳</span><span style="flex:1">'+esc(s)+'</span><button class="sub-del" onclick="eliminarSub('+f.id+','+si+')">✕</button></div>';
-    }).join('');
-    var div = document.createElement('div');
-    div.className = 'flujo-wrap';
-    div.innerHTML =
-      '<div class="flujo-header">'+
-        '<span class="flujo-title">● F-0'+(fi+1)+'&nbsp;&nbsp;'+esc(f.nombre)+'</span>'+
-        '<button class="flujo-del" onclick="eliminarFlujo('+f.id+')">✕ Eliminar</button>'+
-      '</div>'+
-      '<div class="subflujos">'+
-        subsHtml+
-        '<div class="sub-row" style="background:var(--azul-c)">'+
-          '<input type="text" id="si-'+f.id+'" placeholder="Agregar subflujo…" style="flex:1;border:none;background:transparent;font-size:12px;outline:none;font-family:inherit" onkeydown="if(event.key===\'Enter\') agregarSub('+f.id+')"/>'+
-          '<button class="add-sub-btn" onclick="agregarSub('+f.id+')">+ Subflujo</button>'+
-        '</div>'+
-      '</div>';
-    tree.appendChild(div);
+function renderFeatureTree() {
+  const appNombre = document.getElementById('app-nombre').value.trim() || 'Aplicación';
+  const appApm = document.getElementById('app-apm').value.trim().replace(/-/g,'') || 'APM';
+  const featureTitle = state.featureTitle || (appApm + ' FC ' + appNombre);
+  const tree = document.getElementById('feature-tree');
+  let html = `<div class="feature-block">
+    <div class="feature-header">
+      <span class="feature-badge">Feature</span>
+      <span class="feature-title">${esc(featureTitle)}</span>
+    </div>`;
+  state.flujos.forEach(f => {
+    html += `<div class="tarea-block">
+      <div class="tarea-header">
+        <span class="tarea-badge">Tarea</span>
+        <span class="tarea-title">${esc(f.titulo)}</span>
+        <button class="tarea-del" onclick="eliminarTarea(${f.id})" title="Eliminar tarea">✕</button>
+      </div>
+      <div class="casos-list">`;
+    f.casos.forEach(c => {
+      html += `<div class="caso-block">
+        <div class="caso-header">
+          <span class="caso-badge">Caso de prueba</span>
+          <span class="caso-title">${esc(c.titulo)}</span>
+          <button class="caso-del" onclick="eliminarCaso(${f.id},${c.id})" title="Eliminar caso">✕</button>
+        </div>
+        <div class="caso-tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+        <textarea class="gherkin-edit" onchange="editarGherkin(${f.id},${c.id},this.value)">${esc(c.gherkin)}</textarea>
+      </div>`;
+    });
+    html += `<button class="add-caso-btn" onclick="agregarCaso(${f.id})">+ Agregar caso de prueba</button>
+      </div>
+    </div>`;
   });
+  html += `</div>`;
+  tree.innerHTML = html;
 }
 
-function eliminarFlujo(id) {
-  state.flujos = state.flujos.filter(function(f){ return f.id!==id; });
-  renderTree();
+function eliminarTarea(id) {
+  state.flujos = state.flujos.filter(f => f.id !== id);
+  renderFeatureTree();
 }
-function eliminarSub(id, si) {
-  state.flujos.find(function(f){ return f.id===id; }).subflujos.splice(si,1);
-  renderTree();
+
+function eliminarCaso(flujoId, casoId) {
+  const f = state.flujos.find(f => f.id === flujoId);
+  if (f) f.casos = f.casos.filter(c => c.id !== casoId);
+  renderFeatureTree();
 }
-function agregarSub(id) {
-  var inp = document.getElementById('si-'+id);
-  var val = inp ? inp.value.trim() : '';
+
+function editarGherkin(flujoId, casoId, val) {
+  const f = state.flujos.find(f => f.id === flujoId);
+  if (f) { const c = f.casos.find(c => c.id === casoId); if (c) c.gherkin = val; }
+}
+
+function agregarCaso(flujoId) {
+  const f = state.flujos.find(f => f.id === flujoId);
+  if (!f) return;
+  const newId = Date.now();
+  f.casos.push({ id: newId, titulo: 'Nuevo caso de prueba', tags: ['@Frontend'], gherkin: 'Scenario: Nuevo escenario\n  Given \n  When \n  Then ' });
+  renderFeatureTree();
+}
+
+function agregarTarea() {
+  const inp = document.getElementById('nueva-tarea');
+  const val = inp.value.trim();
   if (!val) return;
-  state.flujos.find(function(f){ return f.id===id; }).subflujos.push(val);
-  renderTree();
-}
-function agregarFlujo() {
-  var inp = document.getElementById('nuevo-flujo');
-  var val = inp.value.trim();
-  if (!val) return;
-  state.flujos.push({id:state.nextId++, nombre:val, subflujos:[]});
+  const newId = Date.now();
+  state.flujos.push({ id: newId, titulo: 'FC ' + val, casos: [
+    { id: newId+1, titulo: 'Escenario exitoso', tags: ['@Frontend','@API'], gherkin: 'Scenario: Escenario exitoso\n  Given \n  When \n  Then ' }
+  ]});
   inp.value = '';
-  renderTree();
+  renderFeatureTree();
 }
+
 function reiniciar() {
   state.flujos = [];
-  state.nextId = 4;
+  state.featureTitle = '';
   document.getElementById('app-nombre').value = '';
   document.getElementById('app-apm').value = '';
   document.getElementById('app-desc').value = '';
+  document.getElementById('ctx-final').value = '';
+  document.getElementById('btn-p1').disabled = true;
   goTo(1);
   showToast('Listo para un nuevo levantamiento');
 }
+
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+
 function showToast(msg) {
-  var t = document.getElementById('toast');
+  const t = document.getElementById('toast');
   t.textContent = msg;
   t.style.display = 'block';
-  setTimeout(function(){ t.style.display='none'; }, 3000);
+  setTimeout(() => t.style.display = 'none', 3000);
 }
+
+document.addEventListener('DOMContentLoaded', () => { validarP1(); });
 </script>
 </body>
 </html>
