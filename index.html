@@ -1,3 +1,8 @@
+bash
+
+cat /mnt/user-data/outputs/index.html
+Output
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,225 +12,123 @@
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;min-height:100vh}
-  :root{--azul:#003087;--azul-m:#185FA5;--azul-c:#E8F0FB;--azul-b:#B3C6E0;--verde:#1D6A35;--verde-c:#EAF4EE;--naranja:#C55A11;--naranja-c:#FFF8E1;--gris:#F7F8FA;--gris-b:#E2E8F0;--gris-t:#64748B;--negro:#1E293B;--rojo-c:#FEE2E2;--rojo-t:#7F1D1D;--code:#1E1E2E}
+  :root{--azul:#003087;--azul-m:#185FA5;--azul-c:#E8F0FB;--azul-b:#B3C6E0;--verde:#1D6A35;--verde-c:#EAF4EE;--gris:#F7F8FA;--gris-b:#E2E8F0;--gris-t:#64748B;--negro:#1E293B}
 
-  /* LAYOUT */
   .shell{max-width:900px;margin:0 auto;background:#fff;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.08)}
   .topbar{background:var(--azul);padding:14px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
   .logo{width:34px;height:34px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--azul);font-size:14px;flex-shrink:0}
-  .topbar-info h1{color:#fff;font-size:15px;font-weight:600;line-height:1.3}
-  .topbar-info p{color:#9DC3E6;font-size:12px}
-  .stepper{background:#fff;border-bottom:1px solid var(--gris-b);display:flex;overflow-x:auto}
-  .step{padding:12px 18px;font-size:12px;color:var(--gris-t);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:all .2s;flex-shrink:0}
-  .step:hover{color:var(--azul-m);background:var(--gris)}
+  .topbar h1{color:#fff;font-size:15px;font-weight:600}
+  .topbar p{color:#9DC3E6;font-size:12px}
+
+  .stepper{background:#fff;border-bottom:1px solid var(--gris-b);display:flex}
+  .step{padding:12px 18px;font-size:12px;color:var(--gris-t);border-bottom:2px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0}
   .step.active{color:var(--azul);border-bottom-color:var(--azul);font-weight:600}
   .step.done{color:var(--verde)}
-  .step-num{width:20px;height:20px;border-radius:50%;background:var(--gris-b);color:var(--gris-t);font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0;transition:all .2s}
+  .step-num{width:20px;height:20px;border-radius:50%;background:var(--gris-b);color:var(--gris-t);font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
   .step.active .step-num{background:var(--azul);color:#fff}
   .step.done .step-num{background:var(--verde);color:#fff}
   .progress{height:3px;background:var(--gris-b)}
-  .progress-fill{height:3px;background:var(--azul);transition:width .4s ease}
+  .progress-fill{height:3px;background:var(--azul);transition:width .4s}
+
   .content{padding:28px 32px;max-width:780px;margin:0 auto}
   .screen{display:none}
   .screen.active{display:block}
 
-  /* TYPOGRAPHY */
-  .sec-label{font-size:11px;font-weight:600;color:var(--gris-t);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;margin-top:20px}
   .page-title{font-size:18px;font-weight:600;color:var(--azul);margin-bottom:4px;margin-top:4px}
   .page-sub{font-size:13px;color:var(--gris-t);margin-bottom:20px;line-height:1.5}
+  .sec-label{font-size:11px;font-weight:600;color:var(--gris-t);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;margin-top:20px}
 
-  /* FORM */
   .form-row{margin-bottom:14px}
   .form-row label{display:block;font-size:12px;font-weight:600;color:var(--gris-t);margin-bottom:5px}
-  .form-row input[type=text],.form-row select,.form-row textarea{width:100%;padding:9px 12px;border:1px solid var(--gris-b);border-radius:8px;font-size:13px;color:var(--negro);outline:none;transition:border .2s;background:#fff}
+  .form-row input[type=text],.form-row select,.form-row textarea{width:100%;padding:9px 12px;border:1px solid var(--gris-b);border-radius:8px;font-size:13px;color:var(--negro);outline:none;background:#fff;font-family:inherit}
   .form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--azul-m);box-shadow:0 0 0 3px rgba(24,95,165,.1)}
   .form-row textarea{resize:vertical;min-height:72px;line-height:1.5}
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
   .hidden-row{display:none;margin-top:10px}
   .hidden-row.visible{display:block}
 
-  /* RADIO & CHECKBOX */
   .radio-group{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-  .radio-btn{padding:7px 16px;border:1px solid var(--gris-b);border-radius:8px;font-size:13px;cursor:pointer;color:var(--gris-t);background:var(--gris);transition:all .15s;user-select:none}
-  .radio-btn:hover{border-color:var(--azul-b);color:var(--azul-m)}
+  .radio-btn{padding:7px 16px;border:1px solid var(--gris-b);border-radius:8px;font-size:13px;cursor:pointer;color:var(--gris-t);background:var(--gris);user-select:none}
   .radio-btn.sel{border-color:var(--azul);background:var(--azul-c);color:var(--azul);font-weight:600}
-  .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
-  .check-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--negro);cursor:pointer;padding:6px 10px;border:1px solid var(--gris-b);border-radius:8px;transition:all .15s}
-  .check-item:hover{border-color:var(--azul-b);background:var(--azul-c)}
-  .check-item input{accent-color:var(--azul);width:15px;height:15px;flex-shrink:0}
-  .check-item.checked{border-color:var(--azul);background:var(--azul-c)}
 
-  /* ALERTS */
-  .alert{padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
-  .alert-info{background:var(--azul-c);border:1px solid var(--azul-b);color:var(--azul-m)}
-  .alert-success{background:var(--verde-c);border:1px solid #86EFAC;color:var(--verde)}
-  .alert-warn{background:var(--naranja-c);border:1px solid #FCD34D;color:var(--naranja)}
-  .alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+  /* SPINNER */
+  .loading-card{background:var(--azul-c);border:1px solid var(--azul-b);border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .spinner{width:20px;height:20px;border:2px solid var(--azul-b);border-top-color:var(--azul);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .loading-text{font-size:13px;color:var(--azul-m)}
 
-  /* CONFLUENCE BOXES */
-  .conf-box{border-radius:10px;padding:16px;margin-top:10px;border:1px solid}
-  .conf-found{background:var(--verde-c);border-color:#86EFAC}
-  .conf-not{background:var(--gris);border-color:var(--gris-b)}
-  .conf-title{font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-  .conf-found .conf-title{color:var(--verde)}
-  .conf-not .conf-title{color:var(--gris-t)}
-  .conf-link{color:var(--azul-m);font-size:12px;text-decoration:underline;cursor:pointer;display:inline-block;margin-top:4px}
-  .conf-msg{font-size:12px;color:#475569;margin-top:6px;line-height:1.5}
-  .conf-check{margin-top:12px;display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer}
-  .conf-check input{accent-color:var(--azul);width:15px;height:15px}
+  /* CONFLUENCE */
+  .conf-card{background:var(--verde-c);border:1px solid #86EFAC;border-radius:10px;padding:16px;margin-bottom:20px}
+  .conf-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .conf-badge{font-size:11px;background:var(--verde);color:#fff;border-radius:4px;padding:2px 8px;font-weight:500}
+  .conf-title{font-size:13px;font-weight:600;color:var(--verde);flex:1}
+  .conf-footer{font-size:11px;color:var(--verde);margin-top:8px}
+  .conf-link{color:var(--azul-m);text-decoration:underline;cursor:pointer;background:none;border:none;font-size:11px;font-family:inherit;padding:0}
+  .edit-label{display:block;font-size:11px;font-weight:600;color:#1D6A35;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;margin-top:10px}
 
-  /* FLUJO TREE */
-  .tree-empty{border:2px dashed var(--gris-b);border-radius:10px;padding:40px;text-align:center;color:var(--gris-t);font-size:13px;margin-bottom:16px}
-  .tree-empty .tree-empty-icon{font-size:32px;margin-bottom:8px;color:var(--gris-b)}
+  /* UPLOAD */
+  .upload-zone{border:1px dashed var(--gris-b);border-radius:8px;padding:16px;text-align:center;color:var(--gris-t);font-size:12px;cursor:pointer;background:var(--gris)}
+  .upload-zone:hover{border-color:var(--azul-m);background:var(--azul-c)}
+  .upload-link{color:var(--azul-m);text-decoration:underline}
+
+  /* FLUJOS */
   .flujo-wrap{margin-bottom:10px}
-  .flujo-header{background:var(--azul);color:#fff;padding:11px 16px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-  .flujo-header-title{font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .flujo-header{background:var(--azul);color:#fff;padding:11px 16px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:space-between}
+  .flujo-title{font-size:13px;font-weight:600}
   .flujo-del{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer}
-  .flujo-del:hover{background:rgba(255,255,255,.3)}
-  .subflujos{border:1px solid var(--azul-b);border-top:none;border-radius:0 0 8px 8px;overflow:hidden}
-  .subflujo-row{display:flex;align-items:center;padding:8px 16px;border-bottom:1px solid var(--gris-b);font-size:12px;color:#475569;gap:8px}
-  .subflujo-row:last-child{border-bottom:none}
-  .subflujo-icon{color:var(--gris-t);font-size:13px}
-  .subflujo-del{margin-left:auto;background:none;border:none;color:var(--gris-t);cursor:pointer;font-size:12px;opacity:.6}
-  .subflujo-del:hover{opacity:1;color:#ef4444}
-  .add-row{display:flex;gap:8px;margin-top:6px}
-  .add-row input{flex:1;padding:8px 12px;border:1px solid var(--gris-b);border-radius:8px;font-size:12px;outline:none}
+  .subflujos{border:1px solid var(--azul-b);border-top:none;border-radius:0 0 8px 8px}
+  .sub-row{display:flex;align-items:center;padding:8px 16px;border-bottom:1px solid var(--gris-b);font-size:12px;color:#475569;gap:8px}
+  .sub-row:last-child{border-bottom:none}
+  .sub-del{margin-left:auto;background:none;border:none;color:var(--gris-t);cursor:pointer;font-size:12px;opacity:.6}
+  .sub-del:hover{opacity:1;color:#ef4444}
+  .add-row{display:flex;gap:8px;margin-top:8px}
+  .add-row input{flex:1;padding:8px 12px;border:1px solid var(--gris-b);border-radius:8px;font-size:12px;outline:none;font-family:inherit}
   .add-row input:focus{border-color:var(--azul-m)}
-  .add-btn{padding:8px 14px;background:var(--azul);color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;white-space:nowrap}
-  .add-btn:hover{background:var(--azul-m)}
-  .add-sub-btn{padding:5px 10px;background:var(--azul-c);color:var(--azul);border:1px solid var(--azul-b);border-radius:6px;font-size:11px;cursor:pointer;margin-top:8px}
+  .add-btn{padding:8px 14px;background:var(--azul);color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .add-sub-btn{padding:5px 10px;background:var(--azul-c);color:var(--azul);border:1px solid var(--azul-b);border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit}
+  .tree-empty{border:2px dashed var(--gris-b);border-radius:10px;padding:40px;text-align:center;color:var(--gris-t);font-size:13px;margin-bottom:16px}
 
-  /* DETALLE */
-  .flujo-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:10px 16px;background:var(--gris);border-radius:10px}
-  .flujo-nav-title{font-size:13px;font-weight:600;color:var(--azul)}
-  .flujo-nav-sub{font-size:11px;color:var(--gris-t)}
-  .nav-arrows{display:flex;gap:6px}
-  .nav-btn{padding:6px 12px;border:1px solid var(--gris-b);border-radius:6px;font-size:12px;cursor:pointer;background:#fff;color:var(--negro)}
-  .nav-btn:hover{border-color:var(--azul-b);background:var(--azul-c);color:var(--azul)}
-
-  /* TABS */
-  .tabs{display:flex;border-bottom:1px solid var(--gris-b);margin-bottom:20px;overflow-x:auto}
-  .tab{padding:10px 16px;font-size:13px;color:var(--gris-t);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
-  .tab:hover{color:var(--azul-m)}
-  .tab.active{color:var(--azul);border-bottom-color:var(--azul);font-weight:600}
-  .tab-content{display:none}
-  .tab-content.active{display:block}
-
-  /* RESULTADO FLUJO */
-  .res-flujo{border:1px solid var(--gris-b);border-radius:10px;overflow:hidden;margin-bottom:16px}
-  .res-header{background:var(--azul);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-  .res-title{color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px}
-  .badge-crit{border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600}
-  .badge-alto{background:var(--rojo-c);color:var(--rojo-t)}
-  .badge-medio{background:#FEF3C7;color:#78350F}
-  .badge-bajo{background:var(--verde-c);color:var(--verde)}
-  .res-body{padding:14px 16px}
-  .res-field{margin-bottom:10px}
-  .res-label{font-size:10px;font-weight:600;color:var(--gris-t);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-  .res-val{font-size:13px;color:var(--negro);line-height:1.5}
-  .res-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
-  .tag{background:var(--azul-c);color:var(--azul);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:500}
-  .subflujo-list{margin-top:4px}
-  .subflujo-item{display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--gris);font-size:12px;color:#475569}
-  .subflujo-item:last-child{border-bottom:none}
-
-  /* GHERKIN */
-  .gherkin{background:var(--code);border-radius:10px;padding:18px;font-family:'Courier New',Courier,monospace;font-size:12px;line-height:1.9;margin-bottom:16px;overflow-x:auto}
-  .gh-feature{color:#C792EA}
-  .gh-scenario{color:#82AAFF}
-  .gh-given{color:#C3E88D}
-  .gh-when{color:#FFCB6B}
-  .gh-then{color:#F07178}
-  .gh-and{color:#89DDFF}
-  .gh-tag{color:#546E7A}
-  .gh-text{color:#CDD3DE}
-
-  /* AZURE */
-  .az-board{border:1px solid var(--gris-b);border-radius:10px;overflow:hidden;margin-bottom:12px}
-  .az-header{background:#0078d4;padding:10px 16px;font-size:12px;color:#fff;font-weight:600;display:flex;align-items:center;gap:6px}
-  .az-feature{padding:10px 16px;background:#EFF6FF;border-bottom:1px solid var(--gris-b);display:flex;align-items:center;gap:8px}
-  .az-tarea{padding:10px 16px 10px 32px;border-bottom:1px solid #f8fafc;background:#fff}
-  .az-tarea-hdr{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-  .az-caso{padding:7px 16px 7px 52px;border-bottom:1px solid #f8fafc;display:flex;align-items:center;gap:8px;background:#FAFBFC}
-  .az-caso:last-child{border-bottom:none}
-  .badge-az{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600}
-  .badge-feature{background:#DBEAFE;color:#1E40AF}
-  .badge-tarea{background:var(--azul-c);color:var(--azul)}
-  .badge-caso{background:var(--verde-c);color:var(--verde)}
-  .badge-new{background:var(--gris-b);color:var(--gris-t)}
-  .az-text{font-size:12px;color:var(--negro);flex:1}
-  .fase2-note{font-size:11px;color:var(--gris-t);display:flex;align-items:center;gap:4px;margin-top:4px}
-
-  /* RESUMEN TABLE */
-  .sum-table{width:100%}
-  .sum-table tr{border-bottom:1px solid var(--gris)}
-  .sum-table td{padding:9px 0;font-size:13px;vertical-align:top}
-  .sum-table td:first-child{color:var(--gris-t);width:40%;padding-right:16px}
-  .sum-table td:last-child{color:var(--negro);font-weight:500}
-
-  /* ACTIONS */
-  .actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
-  .btn{padding:10px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;display:flex;align-items:center;gap:6px}
-  .btn:hover{opacity:.88;transform:translateY(-1px)}
-  .btn:active{transform:translateY(0)}
-  .btn-primary{background:var(--azul);color:#fff}
-  .btn-success{background:var(--verde);color:#fff}
-  .btn-outline{background:#fff;color:#475569;border:1px solid var(--gris-b)}
-  .btn-outline:hover{border-color:var(--azul-b);background:var(--azul-c);color:var(--azul)}
-  .btn-secondary{background:var(--gris);color:var(--gris-t);border:1px solid var(--gris-b)}
-  .confirm-check{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;padding:12px;border:1px solid var(--gris-b);border-radius:9px;background:var(--azul-c);margin-top:16px;color:var(--azul)}
-  .confirm-check input{accent-color:var(--azul);width:16px;height:16px}
-
-  /* FASE BADGE */
-  .fase-badge{background:var(--naranja-c);color:var(--naranja);border:1px solid #FCD34D;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
-
-  /* DIVIDER */
   .divider{border:none;border-top:1px solid var(--gris-b);margin:20px 0}
+  .actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+  .btn{padding:10px 20px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;border:none;display:flex;align-items:center;gap:6px;font-family:inherit}
+  .btn:hover{opacity:.88}
+  .btn-primary{background:var(--azul);color:#fff}
+  .btn-secondary{background:var(--gris);color:var(--gris-t);border:1px solid var(--gris-b)}
+  .btn-outline{background:#fff;color:#475569;border:1px solid var(--gris-b)}
+  .btn-azure{background:#0078d4;color:#fff}
 
-  /* TOAST */
-  .toast{position:fixed;bottom:24px;right:24px;background:#1E293B;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;display:none;z-index:999;animation:slideup .3s ease}
-  @keyframes slideup{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .toast{position:fixed;bottom:24px;right:24px;background:#1E293B;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;display:none;z-index:999}
 
-  /* RESPONSIVE */
   @media(max-width:600px){
     .content{padding:16px}
     .form-grid{grid-template-columns:1fr}
-    .check-grid{grid-template-columns:1fr}
     .actions{flex-direction:column}
-    .btn{justify-content:center}
   }
 </style>
 </head>
 <body>
-
 <div class="shell">
 
-  <!-- TOP BAR -->
   <div class="topbar">
     <div class="logo">S</div>
-    <div class="topbar-info">
+    <div>
       <h1>Agente de flujos críticos</h1>
       <p>Sura Colombia — Calidad y Automatización</p>
     </div>
   </div>
 
-  <!-- STEPPER -->
-  <div class="stepper" id="stepper">
-    <div class="step active" id="tab1" onclick="goTo(1)"><span class="step-num" id="sn1">1</span> Contexto</div>
-    <div class="step" id="tab2" onclick="goTo(2)"><span class="step-num" id="sn2">2</span> Confluence</div>
-    <div class="step" id="tab3" onclick="goTo(3)"><span class="step-num" id="sn3">3</span> Flujos</div>
-    <div class="step" id="tab4" onclick="goTo(4)"><span class="step-num" id="sn4">4</span> Detalle</div>
-    <div class="step" id="tab5" onclick="goTo(5)"><span class="step-num" id="sn5">5</span> Resumen</div>
+  <div class="stepper">
+    <div class="step active" id="tab1"><span class="step-num" id="sn1">1</span> Información básica</div>
+    <div class="step" id="tab2"><span class="step-num" id="sn2">2</span> Contexto</div>
+    <div class="step" id="tab3"><span class="step-num" id="sn3">3</span> Flujos críticos</div>
   </div>
-  <div class="progress"><div class="progress-fill" id="progress" style="width:20%"></div></div>
+  <div class="progress"><div class="progress-fill" id="progress" style="width:33%"></div></div>
 
   <div class="content">
 
-    <!-- ══════════════════════════════════════════════
-         PANTALLA 1 — CONTEXTO
-    ══════════════════════════════════════════════ -->
+    <!-- PANTALLA 1 — INFORMACIÓN BÁSICA -->
     <div class="screen active" id="s1">
-      <p class="page-title">Contexto de la aplicación</p>
+      <p class="page-title">Información básica</p>
       <p class="page-sub">Ingresa la información base de tu aplicación. El agente la usará durante toda la sesión.</p>
 
       <p class="sec-label">Identificación de la aplicación</p>
@@ -288,570 +191,229 @@
       </div>
 
       <div class="actions">
-        <button class="btn btn-primary" id="btn-p1" onclick="goTo(2)" disabled>Continuar →</button>
+        <button class="btn btn-primary" id="btn-p1" onclick="irAContexto()" disabled>Consultar en Confluence →</button>
       </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════
-         PANTALLA 2 — CONFLUENCE
-    ══════════════════════════════════════════════ -->
+    <!-- PANTALLA 2 — CONTEXTO -->
     <div class="screen" id="s2">
-      <p class="page-title">Consulta a Confluence</p>
-      <p class="page-sub">El agente buscó automáticamente documentación funcional para la aplicación ingresada.</p>
+      <p class="page-title">Contexto de la aplicación</p>
+      <p class="page-sub">El agente consultó Confluence y generó un resumen del contexto. Revísalo y completa la información que haga falta.</p>
 
-      <div class="alert alert-info">
-        <span class="alert-icon">🤖</span>
-        <span>El agente invocó la Tool 2 con el nombre e ID APM de tu aplicación y verificó la existencia de documentación en Confluence.</span>
+      <div id="p2-spinner" class="loading-card">
+        <div class="spinner"></div>
+        <span class="loading-text">Buscando documentación en Confluence…</span>
       </div>
 
-      <div class="form-row">
-        <label>¿El agente encontró documentación?</label>
-        <div class="radio-group">
-          <div class="radio-btn sel" id="conf-si" onclick="toggleConf('si')">Sí, encontró documentación</div>
-          <div class="radio-btn" id="conf-no" onclick="toggleConf('no')">No encontró documentación</div>
-        </div>
-      </div>
-
-      <div id="conf-res-si" class="conf-box conf-found">
-        <div class="conf-title">✓ Documentación funcional encontrada</div>
-        <div class="conf-msg">Se encontró documentación funcional registrada para esta aplicación en Confluence. El agente no lee ni interpreta el contenido — solo te comparte el enlace como referencia.</div>
-        <a class="conf-link">🔗 Ver documentación en Confluence →</a>
-        <label class="conf-check">
-          <input type="checkbox" id="conf-check1"/>
-          Ya revisé la documentación y estoy listo para continuar
-        </label>
-      </div>
-
-      <div id="conf-res-no" class="conf-box conf-not" style="display:none">
-        <div class="conf-title">ℹ Sin documentación registrada</div>
-        <div class="conf-msg">No se encontró documentación funcional para esta aplicación en Confluence. Puedes continuar con el levantamiento basándote en tu conocimiento del proceso.</div>
-        <label class="conf-check">
-          <input type="checkbox" id="conf-check2"/>
-          Entendido, continuaré sin documentación de referencia
-        </label>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-secondary" onclick="goTo(1)">← Atrás</button>
-        <button class="btn btn-primary" onclick="goTo(3)">Continuar →</button>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════════════
-         PANTALLA 3 — FLUJOS
-    ══════════════════════════════════════════════ -->
-    <div class="screen" id="s3">
-      <p class="page-title">Árbol de flujos críticos</p>
-      <p class="page-sub">El agente te guía para identificar todos los flujos y subflujos de tu aplicación. El árbol empieza vacío — tú lo construyes con ayuda del agente.</p>
-
-      <div class="alert alert-warn">
-        <span class="alert-icon">💬</span>
-        <span>El agente pregunta: <strong>¿Cuáles son los flujos principales de tu aplicación?</strong> Por cada flujo pregunta si tiene subflujos. Agrega todos los que apliquen para tu aplicación específica.</span>
-      </div>
-
-      <p class="sec-label">Flujos críticos de la aplicación</p>
-      <div id="flujo-tree">
-        <div class="tree-empty" id="empty-msg">
-          <div class="tree-empty-icon">🌳</div>
-          <strong>El árbol está vacío</strong>
-          <p style="margin-top:6px;font-size:12px">Agrega el primer flujo principal de tu aplicación usando el campo de abajo.</p>
-        </div>
-      </div>
-
-      <div class="add-row" style="margin-top:12px">
-        <input type="text" id="nuevo-flujo" placeholder="Nombre del flujo principal — Ej: Expedición de pólizas" onkeydown="if(event.key==='Enter') agregarFlujo()"/>
-        <button class="add-btn" onclick="agregarFlujo()">+ Agregar flujo</button>
-      </div>
-
-      <hr class="divider"/>
-
-      <label class="confirm-check">
-        <input type="checkbox" id="arbol-ok"/>
-        El árbol de flujos está completo, listo para continuar
-      </label>
-
-      <div class="actions">
-        <button class="btn btn-secondary" onclick="goTo(2)">← Atrás</button>
-        <button class="btn btn-primary" onclick="irADetalle()">Continuar →</button>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════════════
-         PANTALLA 4 — DETALLE
-    ══════════════════════════════════════════════ -->
-    <div class="screen" id="s4">
-      <p class="page-title">Detalle de cada flujo</p>
-      <p class="page-sub">Completa la información de cada flujo. El agente la usará para generar el PDF y los work items en Azure DevOps.</p>
-
-      <div class="flujo-nav">
-        <div>
-          <div class="flujo-nav-title" id="flujo-activo-nombre">Flujo 1</div>
-          <div class="flujo-nav-sub" id="flujo-activo-pos">1 de N flujos</div>
-        </div>
-        <div class="nav-arrows">
-          <button class="nav-btn" onclick="navFlujo(-1)">← Anterior</button>
-          <button class="nav-btn" onclick="navFlujo(1)">Siguiente →</button>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <label>Descripción del flujo *</label>
-        <textarea placeholder="Describe qué hace este flujo de principio a fin..."></textarea>
-      </div>
-      <div class="form-row">
-        <label>¿Por qué es crítico?</label>
-        <input type="text" placeholder="¿Qué pasa si este flujo falla o se demora?"/>
-      </div>
-
-      <div class="form-row">
-        <label>Actores que participan</label>
-        <div class="check-grid">
-          <label class="check-item"><input type="checkbox" checked/> Cliente externo</label>
-          <label class="check-item checked"><input type="checkbox" checked/> Asesor comercial</label>
-          <label class="check-item"><input type="checkbox"/> Área interna</label>
-          <label class="check-item checked"><input type="checkbox" checked/> Sistema automatizado</label>
-          <label class="check-item"><input type="checkbox"/> Tercero</label>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <label>Componentes técnicos que toca</label>
-        <div class="check-grid">
-          <label class="check-item checked"><input type="checkbox" checked/> Frontend / interfaz</label>
-          <label class="check-item checked"><input type="checkbox" checked/> API / microservicio</label>
-          <label class="check-item checked"><input type="checkbox" checked/> Base de datos</label>
-          <label class="check-item"><input type="checkbox"/> Infraestructura AWS</label>
-          <label class="check-item checked"><input type="checkbox" checked/> Integración externa</label>
-          <label class="check-item"><input type="checkbox"/> Motor de reglas</label>
-        </div>
-      </div>
-
-      <div class="form-grid">
-        <div class="form-row" style="margin-bottom:0">
-          <label>Nivel de criticidad</label>
-          <select>
-            <option selected>Alto</option>
-            <option>Medio</option>
-            <option>Bajo</option>
-          </select>
-        </div>
-        <div class="form-row" style="margin-bottom:0">
-          <label>¿Tiene periodos de alta demanda?</label>
-          <select>
-            <option>Sí</option>
-            <option>No</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row" style="margin-top:14px">
-        <label>Reglas de negocio relevantes (opcional)</label>
-        <textarea placeholder="Ej: Si el monto asegurado supera $500M se requiere aprobación de reaseguros..."></textarea>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-secondary" onclick="goTo(3)">← Atrás</button>
-        <button class="btn btn-primary" onclick="goTo(5)">Ver resumen →</button>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════════════════════
-         PANTALLA 5 — RESUMEN
-    ══════════════════════════════════════════════ -->
-    <div class="screen" id="s5">
-      <p class="page-title">Resumen y entregables</p>
-      <p class="page-sub">Revisa el resultado completo antes de generar los entregables.</p>
-
-      <div class="alert alert-success">
-        <span class="alert-icon">✓</span>
-        <span>Levantamiento completado — <strong id="res-flujos-count">2 flujos críticos</strong> · <strong>5 subflujos</strong> · <strong>6 escenarios Gherkin generados</strong></span>
-      </div>
-
-      <!-- TABS -->
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab('flujos',this)">Flujos documentados</div>
-        <div class="tab" onclick="switchTab('gherkin',this)">Escenarios Gherkin <span class="fase-badge" style="margin-left:4px">F2</span></div>
-        <div class="tab" onclick="switchTab('azure',this)">Azure DevOps</div>
-        <div class="tab" onclick="switchTab('datos',this)">Datos generales</div>
-      </div>
-
-      <!-- TAB 1 FLUJOS -->
-      <div class="tab-content active" id="tab-flujos">
-        <div id="flujos-resultado"></div>
-        <div class="alert alert-info" id="flujos-vacio" style="display:none">
-          No hay flujos documentados aún. Completa los pasos anteriores.
-        </div>
-      </div>
-
-      <!-- TAB 2 GHERKIN -->
-      <div class="tab-content" id="tab-gherkin">
-        <div class="alert alert-warn" style="margin-bottom:16px">
-          <span class="alert-icon">⏱</span>
-          <span><strong>Fase 2:</strong> Los escenarios Gherkin son generados automáticamente por el agente a partir de la información recolectada. No se requieren nuevas preguntas al PO.</span>
-        </div>
-
-        <div id="gherkin-resultado"></div>
-      </div>
-
-      <!-- TAB 3 AZURE -->
-      <div class="tab-content" id="tab-azure">
-        <p style="font-size:13px;color:var(--gris-t);margin-bottom:12px">Jerarquía de work items que se creará en Azure DevOps siguiendo el lineamiento institucional:</p>
-
-        <div class="az-board">
-          <div class="az-header">☁ Board — <span id="az-app-name">Aplicación</span> · <span id="az-apm">APM</span></div>
-          <div class="az-feature">
-            <span class="badge-az badge-feature">Feature</span>
-            <span class="az-text" id="az-feature-name" style="font-weight:600"></span>
-            <span class="badge-az badge-new">New</span>
+      <div id="p2-content" style="display:none">
+        <div class="conf-card">
+          <div class="conf-header">
+            <span style="font-size:16px">📄</span>
+            <span class="conf-title">Resumen encontrado en Confluence</span>
+            <span class="conf-badge" id="conf-badge">App</span>
           </div>
-          <div id="az-tareas"></div>
+          <span class="edit-label">Editar resumen</span>
+          <textarea id="conf-resumen" style="width:100%;font-size:13px;color:#1E293B;line-height:1.6;border:1px solid #86EFAC;border-radius:8px;padding:10px 12px;background:#fff;resize:vertical;min-height:96px;font-family:inherit;outline:none">Portal web que permite a afiliados consultar su estado de cuenta, solicitar certificados y gestionar beneficios. Integra con el core de pólizas vía API REST y tiene picos de uso a fin de mes por procesos de facturación masiva. Mantenido por el equipo de Canales Digitales.</textarea>
+          <div class="conf-footer">
+            🕐 Documentación actualizada hace 14 días &nbsp;·&nbsp;
+            <button class="conf-link">Ver página original en Confluence →</button>
+          </div>
         </div>
 
-        <div class="fase2-note">
-          ℹ Las <strong style="color:var(--verde)">Tareas en azul</strong> se crean en Fase 1. Los <strong style="color:var(--verde)">Casos de prueba en verde</strong> se crean en Fase 2.
+        <div class="form-row">
+          <label>¿Por qué es crítico este flujo?</label>
+          <textarea placeholder="Describe por qué este flujo impacta el negocio o la experiencia del usuario…"></textarea>
         </div>
-        <br/>
-        <div class="alert alert-info">
-          Todos los elementos se crean en estado <strong>New</strong>, sin estimación y sin archivos adjuntos, conforme al lineamiento institucional.
+
+        <div class="form-row">
+          <label>Reglas de negocio relevantes <span style="font-weight:400;color:#94a3b8">(opcional)</span></label>
+          <textarea placeholder="Ej: no se permiten solicitudes fuera del horario bancario…" style="min-height:56px"></textarea>
+        </div>
+
+        <div class="form-row">
+          <label>Información adicional <span style="font-weight:400;color:#94a3b8">(opcional)</span></label>
+          <div class="upload-zone" onclick="showToast('📎 Selección de archivo disponible en la versión real')">
+            <div style="font-size:22px;margin-bottom:4px">☁</div>
+            Sube un PDF con más contexto si lo tienes
+            <div style="margin-top:4px"><span class="upload-link">Seleccionar archivo</span></div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-secondary" onclick="goTo(1)">← Atrás</button>
+          <button class="btn btn-primary" onclick="irAFlujos()">Crear flujos críticos →</button>
         </div>
       </div>
+    </div>
 
-      <!-- TAB 4 DATOS -->
-      <div class="tab-content" id="tab-datos">
-        <table class="sum-table">
-          <tr><td>Aplicación</td><td id="sum-app"></td></tr>
-          <tr><td>ID APM</td><td id="sum-apm"></td></tr>
-          <tr><td>Producto Sura</td><td id="sum-prod"></td></tr>
-          <tr><td>Rol del usuario</td><td>Product Owner (PO)</td></tr>
-          <tr><td>Documentación Confluence</td><td id="sum-conf"></td></tr>
-          <tr><td>Flujos críticos</td><td id="sum-flujos"></td></tr>
-          <tr><td>Escenarios Gherkin (F2)</td><td id="sum-gherkin"></td></tr>
-        </table>
+    <!-- PANTALLA 3 — FLUJOS CRÍTICOS -->
+    <div class="screen" id="s3">
+      <p class="page-title">Flujos críticos</p>
+      <p class="page-sub">El agente identificó los flujos críticos de la aplicación. Puedes editar, eliminar o agregar flujos y subflujos.</p>
+
+      <div id="p3-spinner" class="loading-card">
+        <div class="spinner"></div>
+        <span class="loading-text">El agente está identificando los flujos críticos…</span>
       </div>
 
-      <!-- CONFIRMACION Y BOTONES -->
-      <hr class="divider"/>
-      <label class="confirm-check">
-        <input type="checkbox" id="confirm-ok"/>
-        He revisado los flujos y escenarios. La información está correcta.
-      </label>
+      <div id="p3-content" style="display:none">
+        <div id="flujo-tree"></div>
 
-      <div class="actions">
-        <button class="btn btn-primary" onclick="showToast('📄 Generando PDF con los flujos documentados...')">
-          ⬇ Descargar PDF
-        </button>
-        <button class="btn btn-success" onclick="showToast('☁ Publicando en Azure DevOps: Feature + Tareas creadas.')">
-          ☁ Publicar en Azure DevOps
-        </button>
-        <button class="btn btn-outline" onclick="reiniciar()">
-          + Nuevo levantamiento
-        </button>
+        <div class="add-row">
+          <input type="text" id="nuevo-flujo" placeholder="Nombre del nuevo flujo principal…" onkeydown="if(event.key==='Enter') agregarFlujo()"/>
+          <button class="add-btn" onclick="agregarFlujo()">+ Agregar flujo</button>
+        </div>
+
+        <hr class="divider"/>
+
+        <div class="actions">
+          <button class="btn btn-secondary" onclick="goTo(2)">← Atrás</button>
+          <button class="btn btn-primary" onclick="showToast('📄 Generando PDF con los flujos documentados...')">⬇ Descargar PDF</button>
+          <button class="btn btn-azure" onclick="showToast('☁ Publicando en Azure DevOps: Feature + Tareas creadas.')">☁ Publicar en Azure DevOps</button>
+          <button class="btn btn-outline" onclick="reiniciar()">+ Nuevo levantamiento</button>
+        </div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── ESTADO GLOBAL ──────────────────────────────────────────────────────────
-const state = {
-  flujos: [],     // [{nombre, subflujos:[]}]
-  flujoIdx: 0,
-};
+var state = { flujos: [], nextId: 4 };
 
-// ── NAVEGACIÓN ─────────────────────────────────────────────────────────────
 function goTo(n) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('s' + n).classList.add('active');
-  document.querySelectorAll('.step').forEach((s, i) => {
-    s.classList.remove('active', 'done');
-    const sn = document.getElementById('sn' + (i + 1));
-    if (i + 1 === n) {
-      s.classList.add('active');
-      sn.textContent = i + 1;
-    } else if (i + 1 < n) {
-      s.classList.add('done');
-      sn.innerHTML = '✓';
-    } else {
-      sn.textContent = i + 1;
-    }
-  });
-  document.getElementById('progress').style.width = (n * 20) + '%';
-  if (n === 5) renderResumen();
-  window.scrollTo(0, 0);
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById('s'+n).classList.add('active');
+  for (var i = 1; i <= 3; i++) {
+    var tab = document.getElementById('tab'+i);
+    var sn  = document.getElementById('sn'+i);
+    tab.classList.remove('active','done');
+    if (i === n)      { tab.classList.add('active'); sn.textContent = i; }
+    else if (i < n)   { tab.classList.add('done');   sn.innerHTML = '✓'; }
+    else              { sn.textContent = i; }
+  }
+  document.getElementById('progress').style.width = (n===1?33:n===2?66:100)+'%';
+  window.scrollTo(0,0);
 }
 
-// ── PANTALLA 1 ─────────────────────────────────────────────────────────────
 function toggleR(grupo, val) {
-  ['si', 'no'].forEach(v => {
-    const el = document.getElementById(grupo + '-' + v);
-    if (el) el.classList.toggle('sel', v === val);
+  ['si','no'].forEach(function(v){
+    var el = document.getElementById(grupo+'-'+v);
+    if (el) el.classList.toggle('sel', v===val);
   });
-  if (grupo === 'ps') {
-    const row = document.getElementById('prod-row');
-    if (row) row.classList.toggle('visible', val === 'si');
-  }
-  if (grupo === 'int') {
-    const row = document.getElementById('int-row');
-    if (row) row.classList.toggle('visible', val === 'si');
-  }
+  if (grupo==='ps') { var r=document.getElementById('prod-row'); if(r) r.classList.toggle('visible',val==='si'); }
+  if (grupo==='int'){ var r=document.getElementById('int-row');  if(r) r.classList.toggle('visible',val==='si'); }
 }
 
 function validarP1() {
-  const n = (document.getElementById('app-nombre') || {}).value || '';
-  const a = (document.getElementById('app-apm') || {}).value || '';
-  const d = (document.getElementById('app-desc') || {}).value || '';
-  const btn = document.getElementById('btn-p1');
-  if (btn) btn.disabled = !(n.trim() && a.trim() && d.trim());
+  var n = document.getElementById('app-nombre').value.trim();
+  var a = document.getElementById('app-apm').value.trim();
+  var d = document.getElementById('app-desc').value.trim();
+  document.getElementById('btn-p1').disabled = !(n && a && d);
 }
 
-// ── PANTALLA 2 ─────────────────────────────────────────────────────────────
-function toggleConf(val) {
-  document.getElementById('conf-si').classList.toggle('sel', val === 'si');
-  document.getElementById('conf-no').classList.toggle('sel', val === 'no');
-  document.getElementById('conf-res-si').style.display = val === 'si' ? 'block' : 'none';
-  document.getElementById('conf-res-no').style.display = val === 'no' ? 'block' : 'none';
+function irAContexto() {
+  var appNombre = document.getElementById('app-nombre').value.trim();
+  document.getElementById('conf-badge').textContent = appNombre;
+  document.getElementById('p2-spinner').style.display = 'flex';
+  document.getElementById('p2-content').style.display = 'none';
+  goTo(2);
+  setTimeout(function(){
+    document.getElementById('p2-spinner').style.display = 'none';
+    document.getElementById('p2-content').style.display = 'block';
+  }, 1800);
 }
 
-// ── PANTALLA 3 — ÁRBOL ────────────────────────────────────────────────────
+function irAFlujos() {
+  document.getElementById('p3-spinner').style.display = 'flex';
+  document.getElementById('p3-content').style.display = 'none';
+  goTo(3);
+  state.flujos = [
+    {id:1, nombre:'Consulta de estado de cuenta', subflujos:['Autenticación del afiliado','Consulta de saldo y movimientos','Descarga de estado de cuenta en PDF']},
+    {id:2, nombre:'Solicitud de certificados',    subflujos:['Selección del tipo de certificado','Validación de vigencia de póliza','Generación y envío al correo registrado']},
+    {id:3, nombre:'Gestión de beneficios',        subflujos:['Consulta de beneficios activos','Activación o desactivación de beneficio']}
+  ];
+  setTimeout(function(){
+    document.getElementById('p3-spinner').style.display = 'none';
+    document.getElementById('p3-content').style.display = 'block';
+    renderTree();
+  }, 2200);
+}
+
 function renderTree() {
-  const tree = document.getElementById('flujo-tree');
-  const emptyMsg = document.getElementById('empty-msg');
-  // limpiar
+  var tree = document.getElementById('flujo-tree');
   tree.innerHTML = '';
   if (state.flujos.length === 0) {
-    tree.appendChild(emptyMsg || crearEmptyMsg());
+    tree.innerHTML = '<div class="tree-empty"><div style="font-size:32px;margin-bottom:8px">🌳</div><strong>No hay flujos</strong><p style="margin-top:6px;font-size:12px">Agrega el primer flujo usando el campo de abajo.</p></div>';
     return;
   }
-  state.flujos.forEach((flujo, fi) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'flujo-wrap';
-    wrap.innerHTML = `
-      <div class="flujo-header">
-        <div class="flujo-header-title">● ${flujo.nombre}</div>
-        <button class="flujo-del" onclick="eliminarFlujo(${fi})">✕ Eliminar</button>
-      </div>
-      <div class="subflujos" id="subs-${fi}">
-        ${flujo.subflujos.map((s, si) => `
-          <div class="subflujo-row">
-            <span class="subflujo-icon">↳</span>
-            <span>${s}</span>
-            <button class="subflujo-del" onclick="eliminarSub(${fi},${si})">✕</button>
-          </div>`).join('')}
-        <div class="subflujo-row" style="background:var(--azul-c)">
-          <input type="text" id="sub-input-${fi}" placeholder="Agregar subflujo..." style="flex:1;border:none;background:transparent;font-size:12px;outline:none" onkeydown="if(event.key==='Enter') agregarSub(${fi})"/>
-          <button class="add-sub-btn" onclick="agregarSub(${fi})">+ Subflujo</button>
-        </div>
-      </div>`;
-    tree.appendChild(wrap);
+  state.flujos.forEach(function(f, fi) {
+    var subsHtml = f.subflujos.map(function(s, si){
+      return '<div class="sub-row"><span style="color:var(--gris-t)">↳</span><span style="flex:1">'+esc(s)+'</span><button class="sub-del" onclick="eliminarSub('+f.id+','+si+')">✕</button></div>';
+    }).join('');
+    var div = document.createElement('div');
+    div.className = 'flujo-wrap';
+    div.innerHTML =
+      '<div class="flujo-header">'+
+        '<span class="flujo-title">● F-0'+(fi+1)+' &nbsp;'+esc(f.nombre)+'</span>'+
+        '<button class="flujo-del" onclick="eliminarFlujo('+f.id+')">✕ Eliminar</button>'+
+      '</div>'+
+      '<div class="subflujos">'+
+        subsHtml+
+        '<div class="sub-row" style="background:var(--azul-c)">'+
+          '<input type="text" id="si-'+f.id+'" placeholder="Agregar subflujo…" style="flex:1;border:none;background:transparent;font-size:12px;outline:none;font-family:inherit" onkeydown="if(event.key===\'Enter\') agregarSub('+f.id+')"/>'+
+          '<button class="add-sub-btn" onclick="agregarSub('+f.id+')">+ Subflujo</button>'+
+        '</div>'+
+      '</div>';
+    tree.appendChild(div);
   });
 }
 
-function crearEmptyMsg() {
-  const d = document.createElement('div');
-  d.id = 'empty-msg';
-  d.className = 'tree-empty';
-  d.innerHTML = '<div class="tree-empty-icon">🌳</div><strong>El árbol está vacío</strong><p style="margin-top:6px;font-size:12px">Agrega el primer flujo principal de tu aplicación usando el campo de abajo.</p>';
-  return d;
+function eliminarFlujo(id) {
+  state.flujos = state.flujos.filter(function(f){ return f.id!==id; });
+  renderTree();
 }
-
+function eliminarSub(id, si) {
+  state.flujos.find(function(f){ return f.id===id; }).subflujos.splice(si,1);
+  renderTree();
+}
+function agregarSub(id) {
+  var inp = document.getElementById('si-'+id);
+  var val = inp ? inp.value.trim() : '';
+  if (!val) return;
+  state.flujos.find(function(f){ return f.id===id; }).subflujos.push(val);
+  renderTree();
+}
 function agregarFlujo() {
-  const inp = document.getElementById('nuevo-flujo');
-  const val = inp.value.trim();
+  var inp = document.getElementById('nuevo-flujo');
+  var val = inp.value.trim();
   if (!val) return;
-  state.flujos.push({ nombre: val, subflujos: [] });
+  state.flujos.push({id: state.nextId++, nombre: val, subflujos:[]});
   inp.value = '';
   renderTree();
 }
-
-function eliminarFlujo(fi) {
-  state.flujos.splice(fi, 1);
-  renderTree();
-}
-
-function agregarSub(fi) {
-  const inp = document.getElementById('sub-input-' + fi);
-  const val = inp ? inp.value.trim() : '';
-  if (!val) return;
-  state.flujos[fi].subflujos.push(val);
-  inp.value = '';
-  renderTree();
-}
-
-function eliminarSub(fi, si) {
-  state.flujos[fi].subflujos.splice(si, 1);
-  renderTree();
-}
-
-function irADetalle() {
-  if (state.flujos.length === 0) {
-    showToast('⚠️ Agrega al menos un flujo crítico antes de continuar.');
-    return;
-  }
-  state.flujoIdx = 0;
-  actualizarNavFlujo();
-  goTo(4);
-}
-
-// ── PANTALLA 4 — DETALLE ──────────────────────────────────────────────────
-function actualizarNavFlujo() {
-  const f = state.flujos[state.flujoIdx];
-  if (!f) return;
-  document.getElementById('flujo-activo-nombre').textContent = f.nombre;
-  document.getElementById('flujo-activo-pos').textContent =
-    `${state.flujoIdx + 1} de ${state.flujos.length} flujos`;
-}
-
-function navFlujo(dir) {
-  const next = state.flujoIdx + dir;
-  if (next < 0 || next >= state.flujos.length) return;
-  state.flujoIdx = next;
-  actualizarNavFlujo();
-}
-
-// ── PANTALLA 5 — RESUMEN ─────────────────────────────────────────────────
-function renderResumen() {
-  const appNombre = (document.getElementById('app-nombre') || {}).value || 'Aplicación';
-  const appApm    = (document.getElementById('app-apm') || {}).value || 'APM';
-  const appDesc   = (document.getElementById('app-desc') || {}).value || '';
-  const confFound = document.getElementById('conf-si').classList.contains('sel');
-  const totalSubs = state.flujos.reduce((a, f) => a + f.subflujos.length, 0);
-  const totalEsc  = state.flujos.length * 3;
-
-  // alerta
-  document.getElementById('res-flujos-count').textContent =
-    `${state.flujos.length} flujo${state.flujos.length!==1?'s':''} crítico${state.flujos.length!==1?'s':''}`;
-
-  // datos generales
-  document.getElementById('sum-app').textContent   = appNombre;
-  document.getElementById('sum-apm').textContent   = appApm;
-  document.getElementById('sum-prod').textContent  = 'Seguro de vida individual';
-  document.getElementById('sum-conf').textContent  = confFound ? '✓ Encontrada y revisada' : 'Sin documentación registrada';
-  document.getElementById('sum-flujos').textContent = `${state.flujos.length} flujos · ${totalSubs} subflujos`;
-  document.getElementById('sum-gherkin').textContent = `${totalEsc} escenarios`;
-
-  // azure
-  document.getElementById('az-app-name').textContent  = appNombre;
-  document.getElementById('az-apm').textContent        = appApm;
-  document.getElementById('az-feature-name').textContent =
-    `${appApm.replace('-','')} — FC ${appNombre}`;
-  const azTareas = document.getElementById('az-tareas');
-  azTareas.innerHTML = state.flujos.map((f, fi) => `
-    <div class="az-tarea">
-      <div class="az-tarea-hdr">
-        <span class="badge-az badge-tarea">Tarea</span>
-        <span class="az-text" style="font-weight:600">${appApm.replace('-','')} ${f.nombre}</span>
-        <span class="badge-az badge-new">New</span>
-      </div>
-      ${['Escenario exitoso','Escenario alternativo','Escenario de error'].map(e => `
-        <div class="az-caso">
-          <span class="badge-az badge-caso">Caso de prueba</span>
-          <span class="az-text">${f.nombre} — ${e} <span class="fase-badge" style="margin-left:4px">F2</span></span>
-          <span class="badge-az badge-new">New</span>
-        </div>`).join('')}
-    </div>`).join('');
-
-  // flujos documentados
-  const flujoRes = document.getElementById('flujos-resultado');
-  const flujoVacio = document.getElementById('flujos-vacio');
-  if (state.flujos.length === 0) {
-    flujoRes.innerHTML = '';
-    flujoVacio.style.display = 'block';
-  } else {
-    flujoVacio.style.display = 'none';
-    flujoRes.innerHTML = state.flujos.map((f, fi) => `
-      <div class="res-flujo">
-        <div class="res-header">
-          <div class="res-title">● Flujo ${fi+1} — ${f.nombre}</div>
-          <span class="badge-crit badge-alto">Alto</span>
-        </div>
-        <div class="res-body">
-          <div class="res-field">
-            <div class="res-label">Descripción</div>
-            <div class="res-val">Proceso completo de ${f.nombre.toLowerCase()} con sus pasos y validaciones requeridas.</div>
-          </div>
-          <div class="res-field">
-            <div class="res-label">¿Por qué es crítico?</div>
-            <div class="res-val">Impacta directamente la operación del negocio y la experiencia del cliente.</div>
-          </div>
-          <div class="res-field">
-            <div class="res-label">Actores</div>
-            <div class="res-tags"><span class="tag">Cliente externo</span><span class="tag">Asesor comercial</span><span class="tag">Sistema automatizado</span></div>
-          </div>
-          <div class="res-field">
-            <div class="res-label">Componentes técnicos</div>
-            <div class="res-tags"><span class="tag">Frontend</span><span class="tag">API / microservicio</span><span class="tag">Base de datos</span><span class="tag">Integración externa</span></div>
-          </div>
-          ${f.subflujos.length > 0 ? `
-          <div class="res-field" style="margin-bottom:0">
-            <div class="res-label">Subflujos</div>
-            <div class="subflujo-list">
-              ${f.subflujos.map(s => `<div class="subflujo-item"><span style="color:var(--gris-t)">↳</span> ${s}</div>`).join('')}
-            </div>
-          </div>` : ''}
-        </div>
-      </div>`).join('');
-  }
-
-  // gherkin
-  const ghRes = document.getElementById('gherkin-resultado');
-  ghRes.innerHTML = state.flujos.map(f => `
-    <div class="gherkin">
-      <span class="gh-tag"># @Frontend @API @BaseDatos @IntegracionExterna</span><br>
-      <span class="gh-feature">Feature:</span><span class="gh-text"> ${f.nombre}</span><br><br>
-      <span class="gh-scenario">  Scenario:</span><span class="gh-text"> ${f.nombre} exitoso</span><br>
-      <span class="gh-given">    Given</span><span class="gh-text"> el actor tiene los datos completos requeridos</span><br>
-      <span class="gh-when">    When</span><span class="gh-text"> se ejecuta el proceso de ${f.nombre.toLowerCase()}</span><br>
-      <span class="gh-then">    Then</span><span class="gh-text"> el sistema completa la operación correctamente</span><br>
-      <span class="gh-and">    And</span><span class="gh-text"> el actor recibe la confirmación del resultado</span><br><br>
-      <span class="gh-scenario">  Scenario:</span><span class="gh-text"> ${f.nombre} con validación adicional</span><br>
-      <span class="gh-given">    Given</span><span class="gh-text"> el proceso requiere aprobación adicional</span><br>
-      <span class="gh-when">    When</span><span class="gh-text"> el sistema detecta la condición de validación</span><br>
-      <span class="gh-then">    Then</span><span class="gh-text"> el flujo escala al área responsable</span><br><br>
-      <span class="gh-scenario">  Scenario:</span><span class="gh-text"> ${f.nombre} — manejo de error</span><br>
-      <span class="gh-given">    Given</span><span class="gh-text"> el sistema recibe datos incompletos o inválidos</span><br>
-      <span class="gh-when">    When</span><span class="gh-text"> se intenta ejecutar el proceso</span><br>
-      <span class="gh-then">    Then</span><span class="gh-text"> el sistema notifica el error al actor</span><br>
-      <span class="gh-and">    And</span><span class="gh-text"> el proceso queda en estado pendiente de corrección</span>
-    </div>`).join('');
-}
-
-// ── PESTAÑAS ───────────────────────────────────────────────────────────────
-function switchTab(tab, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('tab-' + tab).classList.add('active');
-}
-
-// ── TOAST ──────────────────────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 3000);
-}
-
-// ── REINICIAR ──────────────────────────────────────────────────────────────
 function reiniciar() {
   state.flujos = [];
-  state.flujoIdx = 0;
-  renderTree();
+  state.nextId = 4;
+  document.getElementById('app-nombre').value = '';
+  document.getElementById('app-apm').value = '';
+  document.getElementById('app-desc').value = '';
+  document.getElementById('btn-p1').disabled = true;
   goTo(1);
+  showToast('Listo para un nuevo levantamiento');
 }
-
-// ── INIT ───────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  renderTree();
-  validarP1();
-  document.querySelectorAll('.check-item input').forEach(cb => {
-    cb.addEventListener('change', () => {
-      cb.closest('.check-item').classList.toggle('checked', cb.checked);
-    });
-  });
-});
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(function(){ t.style.display='none'; }, 3000);
+}
+document.addEventListener('DOMContentLoaded', function(){ validarP1(); });
 </script>
 </body>
 </html>
