@@ -42,7 +42,7 @@
   .radio-btn:hover{border-color:var(--azul-b);color:var(--azul-m)}
   .radio-btn.sel{border-color:var(--azul);background:var(--azul-c);color:var(--azul);font-weight:600}
 
-  /* PANTALLA 2 */
+  /* PANTALLA 1 — CONTEXTO */
   .ctx-toolbar{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
   .btn-confluence{display:flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid #86EFAC;border-radius:8px;background:var(--verde-c);color:var(--verde);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
   .btn-confluence:hover{background:#c6f0d8}
@@ -50,7 +50,7 @@
   .btn-pdf-upload:hover{background:#cde0f8}
   .ctx-hint{font-size:11px;color:var(--gris-t);margin-bottom:6px}
 
-  /* PANTALLA 3 — FEATURE TREE */
+  /* PANTALLA 2 — FEATURE TREE */
   .feature-block{border:1px solid var(--azul-b);border-radius:10px;overflow:hidden;margin-bottom:20px}
   .feature-header{background:var(--azul);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:8px}
   .feature-badge{font-size:10px;font-weight:700;background:rgba(255,255,255,.2);border-radius:4px;padding:2px 8px;flex-shrink:0}
@@ -60,27 +60,15 @@
   .tarea-header{display:flex;align-items:center;gap:8px;padding:10px 16px;background:#f0f5ff;border-bottom:1px solid var(--gris-b)}
   .tarea-badge{font-size:10px;font-weight:700;background:var(--azul-c);color:var(--azul);border-radius:4px;padding:2px 8px;flex-shrink:0}
   .tarea-title{font-size:13px;font-weight:600;color:var(--azul);flex:1}
-  .tarea-del{background:none;border:none;color:var(--gris-t);cursor:pointer;font-size:13px;opacity:.6;padding:2px 6px;border-radius:4px}
-  .tarea-del:hover{opacity:1;color:#ef4444;background:#fee2e2}
   .casos-list{padding:0}
   .caso-block{border-bottom:1px solid var(--gris-b);padding:10px 16px 10px 48px;background:#fafbff}
   .caso-block:last-child{border-bottom:none}
   .caso-header{display:flex;align-items:center;gap:8px;margin-bottom:6px}
   .caso-badge{font-size:10px;font-weight:700;background:var(--verde-c);color:var(--verde);border-radius:4px;padding:2px 8px;flex-shrink:0}
   .caso-title{font-size:12px;font-weight:600;color:var(--negro);flex:1}
-  .caso-del{background:none;border:none;color:var(--gris-t);cursor:pointer;font-size:12px;opacity:.6;padding:2px 6px;border-radius:4px}
-  .caso-del:hover{opacity:1;color:#ef4444;background:#fee2e2}
   .caso-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
   .tag{background:var(--gris);color:var(--gris-t);border:1px solid var(--gris-b);border-radius:4px;padding:1px 7px;font-size:10px;font-weight:600}
-  .gherkin-edit{width:100%;font-size:12px;font-family:'Courier New',monospace;padding:8px 10px;border:1px solid var(--gris-b);border-radius:6px;background:#f8fafc;color:var(--negro);resize:vertical;min-height:80px;outline:none;line-height:1.7}
-  .gherkin-edit:focus{border-color:var(--azul-m);background:#fff}
-  .add-caso-btn{margin:8px 16px 10px 48px;display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--verde);background:var(--verde-c);border:1px solid #86EFAC;border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit}
-
-  /* FLUJO TREE (para agregar tareas) */
-  .add-tarea-row{display:flex;gap:8px;margin:10px 16px}
-  .add-tarea-row input{flex:1;padding:7px 10px;border:1px solid var(--gris-b);border-radius:7px;font-size:12px;outline:none;font-family:inherit}
-  .add-tarea-row input:focus{border-color:var(--azul-m)}
-  .add-tarea-btn{padding:7px 12px;background:var(--azul);color:#fff;border:none;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .gherkin-view{width:100%;font-size:12px;font-family:'Courier New',monospace;padding:8px 10px;border:1px solid var(--gris-b);border-radius:6px;background:#f8fafc;color:var(--negro);line-height:1.7;white-space:pre-wrap;word-break:break-word;margin:0}
 
   .divider{border:none;border-top:1px solid var(--gris-b);margin:20px 0}
   .actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
@@ -111,115 +99,68 @@
   </div>
 
   <div class="stepper" id="stepper">
-    <div class="step active" id="tab1" onclick="goTo(1)"><span class="step-num" id="sn1">1</span> Información básica</div>
-    <div class="step" id="tab2" onclick="goTo(2)"><span class="step-num" id="sn2">2</span> Contexto</div>
-    <div class="step" id="tab3" onclick="goTo(3)"><span class="step-num" id="sn3">3</span> Flujos críticos</div>
+    <div class="step active" id="tab1" onclick="goTo(1)"><span class="step-num" id="sn1">1</span> Contexto</div>
+    <div class="step" id="tab2" onclick="goTo(2)"><span class="step-num" id="sn2">2</span> Flujos críticos</div>
   </div>
-  <div class="progress"><div class="progress-fill" id="progress" style="width:33%"></div></div>
+  <div class="progress"><div class="progress-fill" id="progress" style="width:50%"></div></div>
 
   <div class="content">
 
-    <!-- ══ PANTALLA 1 — INFORMACIÓN BÁSICA ══ -->
+    <!-- ══ PANTALLA 1 — CONTEXTO PARA EVALUACIÓN E IDENTIFICACIÓN DE FLUJOS CRÍTICOS ══ -->
     <div class="screen active" id="s1">
-      <p class="page-title">Información básica</p>
-      <p class="page-sub">Ingresa la información base de tu aplicación. El agente la usará durante toda la sesión.</p>
+      <p class="page-title">Contexto para evaluación e identificación de flujos críticos</p>
+      <p class="page-sub">Ingresa la identificación de la aplicación y su contexto. El agente los usará para identificar los flujos críticos.</p>
 
       <p class="sec-label">Identificación de la aplicación</p>
       <div class="form-grid">
         <div class="form-row" style="margin-bottom:0">
+          <label>Proyecto *</label>
+          <input type="text" id="app-proyecto" placeholder="Ej: Gerencia de Tecnología" oninput="validarContexto()"/>
+        </div>
+        <div class="form-row" style="margin-bottom:0">
+          <label>Compañía *</label>
+          <input type="text" id="app-compania" placeholder="Ej: Sura Tecnología" oninput="validarContexto()"/>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-row" style="margin-bottom:0">
           <label>Nombre de la aplicación *</label>
-          <input type="text" id="app-nombre" placeholder="Ej: Portal de expedición de pólizas" oninput="validarP1()"/>
+          <input type="text" id="app-nombre" placeholder="Ej: Portal de expedición de pólizas" oninput="validarContexto()"/>
         </div>
         <div class="form-row" style="margin-bottom:0">
           <label>ID APM *</label>
-          <input type="text" id="app-apm" placeholder="Ej: APM-4821" oninput="validarP1()"/>
+          <input type="text" id="app-apm" placeholder="Ej: APM-4821" oninput="validarContexto()"/>
         </div>
       </div>
 
-      <div class="form-row">
-        <label>¿Es un producto Sura?</label>
-        <div class="radio-group">
-          <div class="radio-btn sel" id="ps-si" onclick="toggleR('ps','si')">Sí</div>
-          <div class="radio-btn" id="ps-no" onclick="toggleR('ps','no')">No</div>
-        </div>
-        <div class="hidden-row visible" id="prod-row">
-          <input type="text" placeholder="Nombre del producto — Ej: Seguro de vida individual"/>
-        </div>
-      </div>
-
-      <p class="sec-label">Descripción y propósito</p>
-      <div class="form-row">
-        <label>¿Qué hace esta aplicación? *</label>
-        <textarea id="app-desc" placeholder="Describe brevemente el propósito de la aplicación..." oninput="validarP1()"></textarea>
-      </div>
-
-      <p class="sec-label">Rol e integraciones</p>
-      <div class="form-row">
-        <label>Tu rol en este levantamiento</label>
-        <select>
-          <option>Product Owner (PO)</option>
-          <option>Business Analyst (BA)</option>
-          <option>QA</option>
-          <option>Líder técnico</option>
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label>¿La aplicación se integra con otras aplicaciones?</label>
-        <div class="radio-group">
-          <div class="radio-btn sel" id="int-si" onclick="toggleR('int','si')">Sí</div>
-          <div class="radio-btn" id="int-no" onclick="toggleR('int','no')">No</div>
-        </div>
-        <div class="hidden-row visible" id="int-row">
-          <input type="text" placeholder="Ej: Sistema de pagos, Motor de reglas, Portal de clientes"/>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-primary" id="btn-p1" onclick="goTo(2)" disabled>Continuar →</button>
-      </div>
-    </div>
-
-    <!-- ══ PANTALLA 2 — CONTEXTO ══ -->
-    <div class="screen" id="s2">
-      <p class="page-title">Contexto de la aplicación</p>
-      <p class="page-sub">Escribe o complementa el contexto de la aplicación. El agente lo usará para identificar los flujos críticos.</p>
-
+      <p class="sec-label">Contexto de la aplicación</p>
       <div class="form-row">
         <label>Contexto de la aplicación</label>
         <p class="ctx-hint">Puedes escribir directamente, traer el resumen de Confluence o subir un PDF. Todo se consolida en este campo.</p>
         <div class="ctx-toolbar">
-          <button class="btn-confluence" onclick="traerConfluence()">📄 Traer resumen de Confluence</button>
+          <button class="btn-confluence" onclick="traerConfluence()" title="Consumo del Prompt 1: trae el resumen de la documentación de Confluence">📄 Traer resumen de Confluence</button>
           <button class="btn-pdf-upload" onclick="showToast('Carga de PDF disponible en la versión real')">☁ Subir PDF con contexto</button>
         </div>
-        <textarea id="ctx-final" placeholder="Describe el contexto de la aplicación: propósito, usuarios, integraciones, procesos clave, reglas de negocio relevantes…" style="min-height:160px"></textarea>
+        <textarea id="ctx-final" placeholder="Describe el contexto de la aplicación: propósito, usuarios, integraciones, procesos clave, reglas de negocio relevantes…" style="min-height:160px" oninput="validarContexto()"></textarea>
       </div>
 
       <div class="actions">
-        <button class="btn btn-secondary" onclick="goTo(1)">← Atrás</button>
-        <button class="btn btn-primary" onclick="goTo(3)">Crear flujos críticos →</button>
+        <button class="btn btn-primary" id="btn-continuar" onclick="goTo(2)" disabled title="Consumo del Prompt 2: crea los flujos críticos y los publica en Azure DevOps">Crear flujos críticos →</button>
       </div>
     </div>
 
-    <!-- ══ PANTALLA 3 — FLUJOS CRÍTICOS ══ -->
-    <div class="screen" id="s3">
+    <!-- ══ PANTALLA 2 — FLUJOS CRÍTICOS (SOLO VISUAL) ══ -->
+    <div class="screen" id="s2">
       <p class="page-title">Flujos críticos</p>
-      <p class="page-sub">El agente generó los flujos críticos con sus casos de prueba según el lineamiento. Revisa, edita o agrega antes de publicar.</p>
+      <p class="page-sub">Resultado generado por el agente: Feature, Tareas y Casos de prueba en Gherkin, ya publicados en Azure DevOps con la taxonomía del lineamiento institucional.</p>
 
       <div id="feature-tree"></div>
 
-      <div class="add-tarea-row">
-        <input type="text" id="nueva-tarea" placeholder="Agregar nueva tarea (flujo crítico)…" onkeydown="if(event.key==='Enter') agregarTarea()"/>
-        <button class="add-tarea-btn" onclick="agregarTarea()">+ Agregar tarea</button>
-      </div>
-
       <hr class="divider"/>
-      <p class="publish-note">Al publicar, el agente creará en Azure DevOps el Feature, las Tareas y los Casos de prueba en Gherkin con la taxonomía del lineamiento institucional, todos en estado <strong>New</strong>.</p>
+      <p class="publish-note">El agente creó en Azure DevOps el Feature, las Tareas y los Casos de prueba en Gherkin con la taxonomía del lineamiento institucional, todos en estado <strong>New</strong>.</p>
 
-      <div class="actions">
-        <button class="btn btn-secondary" onclick="goTo(2)">← Atrás</button>
-        <button class="btn btn-primary" onclick="showToast('📄 Generando PDF con flujos y casos de prueba...')">⬇ Descargar PDF</button>
-        <button class="btn btn-azure" onclick="showToast('☁ Publicando en Azure DevOps: Feature + Tareas + Casos de prueba creados en estado New.')">☁ Publicar en Azure DevOps</button>
+      <div class="actions" style="justify-content:center">
+        <button class="btn btn-secondary" onclick="reiniciar()">Cerrar</button>
       </div>
     </div>
 
@@ -241,26 +182,19 @@ function goTo(n) {
     else if (i + 1 < n) { s.classList.add('done'); sn.innerHTML = '✓'; }
     else { sn.textContent = i + 1; }
   });
-  const pct = n === 1 ? 33 : n === 2 ? 66 : 100;
+  const pct = n === 1 ? 50 : 100;
   document.getElementById('progress').style.width = pct + '%';
-  if (n === 3) cargarFlujos();
+  if (n === 2) cargarFlujos();
   window.scrollTo(0, 0);
 }
 
-function toggleR(grupo, val) {
-  ['si','no'].forEach(v => {
-    const el = document.getElementById(grupo + '-' + v);
-    if (el) el.classList.toggle('sel', v === val);
-  });
-  if (grupo === 'ps') document.getElementById('prod-row').classList.toggle('visible', val === 'si');
-  if (grupo === 'int') document.getElementById('int-row').classList.toggle('visible', val === 'si');
-}
-
-function validarP1() {
+function validarContexto() {
+  const p = document.getElementById('app-proyecto').value.trim();
+  const co = document.getElementById('app-compania').value.trim();
   const n = document.getElementById('app-nombre').value.trim();
   const a = document.getElementById('app-apm').value.trim();
-  const d = document.getElementById('app-desc').value.trim();
-  document.getElementById('btn-p1').disabled = !(n && a && d);
+  const c = document.getElementById('ctx-final').value.trim();
+  document.getElementById('btn-continuar').disabled = !(p && co && n && a && c);
 }
 
 function traerConfluence() {
@@ -268,6 +202,7 @@ function traerConfluence() {
   const resumen = 'Portal web que permite a afiliados consultar su estado de cuenta, solicitar certificados y gestionar beneficios. Integra con el core de pólizas vía API REST y tiene picos de uso a fin de mes por procesos de facturación masiva. Mantenido por el equipo de Canales Digitales.';
   ctx.value = ctx.value.trim() ? ctx.value.trim() + '\n\n' + resumen : resumen;
   ctx.focus();
+  validarContexto();
   showToast('✓ Resumen de Confluence agregado al contexto');
 }
 
@@ -311,7 +246,6 @@ function renderFeatureTree() {
       <div class="tarea-header">
         <span class="tarea-badge">Tarea</span>
         <span class="tarea-title">${esc(f.titulo)}</span>
-        <button class="tarea-del" onclick="eliminarTarea(${f.id})" title="Eliminar tarea">✕</button>
       </div>
       <div class="casos-list">`;
     f.casos.forEach(c => {
@@ -319,64 +253,27 @@ function renderFeatureTree() {
         <div class="caso-header">
           <span class="caso-badge">Caso de prueba</span>
           <span class="caso-title">${esc(c.titulo)}</span>
-          <button class="caso-del" onclick="eliminarCaso(${f.id},${c.id})" title="Eliminar caso">✕</button>
         </div>
         <div class="caso-tags">${c.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
-        <textarea class="gherkin-edit" onchange="editarGherkin(${f.id},${c.id},this.value)">${esc(c.gherkin)}</textarea>
+        <pre class="gherkin-view">${esc(c.gherkin)}</pre>
       </div>`;
     });
-    html += `<button class="add-caso-btn" onclick="agregarCaso(${f.id})">+ Agregar caso de prueba</button>
-      </div>
+    html += `</div>
     </div>`;
   });
   html += `</div>`;
   tree.innerHTML = html;
 }
 
-function eliminarTarea(id) {
-  state.flujos = state.flujos.filter(f => f.id !== id);
-  renderFeatureTree();
-}
-
-function eliminarCaso(flujoId, casoId) {
-  const f = state.flujos.find(f => f.id === flujoId);
-  if (f) f.casos = f.casos.filter(c => c.id !== casoId);
-  renderFeatureTree();
-}
-
-function editarGherkin(flujoId, casoId, val) {
-  const f = state.flujos.find(f => f.id === flujoId);
-  if (f) { const c = f.casos.find(c => c.id === casoId); if (c) c.gherkin = val; }
-}
-
-function agregarCaso(flujoId) {
-  const f = state.flujos.find(f => f.id === flujoId);
-  if (!f) return;
-  const newId = Date.now();
-  f.casos.push({ id: newId, titulo: 'Nuevo caso de prueba', tags: ['@Frontend'], gherkin: 'Scenario: Nuevo escenario\n  Given \n  When \n  Then ' });
-  renderFeatureTree();
-}
-
-function agregarTarea() {
-  const inp = document.getElementById('nueva-tarea');
-  const val = inp.value.trim();
-  if (!val) return;
-  const newId = Date.now();
-  state.flujos.push({ id: newId, titulo: 'FC ' + val, casos: [
-    { id: newId+1, titulo: 'Escenario exitoso', tags: ['@Frontend','@API'], gherkin: 'Scenario: Escenario exitoso\n  Given \n  When \n  Then ' }
-  ]});
-  inp.value = '';
-  renderFeatureTree();
-}
-
 function reiniciar() {
   state.flujos = [];
   state.featureTitle = '';
+  document.getElementById('app-proyecto').value = '';
+  document.getElementById('app-compania').value = '';
   document.getElementById('app-nombre').value = '';
   document.getElementById('app-apm').value = '';
-  document.getElementById('app-desc').value = '';
   document.getElementById('ctx-final').value = '';
-  document.getElementById('btn-p1').disabled = true;
+  document.getElementById('btn-continuar').disabled = true;
   goTo(1);
   showToast('Listo para un nuevo levantamiento');
 }
@@ -392,7 +289,7 @@ function showToast(msg) {
   setTimeout(() => t.style.display = 'none', 3000);
 }
 
-document.addEventListener('DOMContentLoaded', () => { validarP1(); });
+document.addEventListener('DOMContentLoaded', () => { validarContexto(); });
 </script>
 </body>
 </html>
